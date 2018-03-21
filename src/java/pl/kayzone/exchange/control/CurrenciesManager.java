@@ -1,4 +1,4 @@
-package pl.kayzone.control;
+package pl.kayzone.exchange.control;
 
 public class CurrenciesManager {
 

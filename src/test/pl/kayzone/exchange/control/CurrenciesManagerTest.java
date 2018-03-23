@@ -7,8 +7,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
@@ -20,27 +22,28 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(JUnitParamsRunner.class)
 public class CurrenciesManagerTest {
 
-    private CurrenciesManager currenciesManager;
-
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Mock
-    private Morphia morphia;
-    @Mock
-    private MongoClient mongoClient;
-    @Mock
-    private Datastore ds;
+    @Mock private Morphia mockMorphia;
+    @Mock private MongoClient mockMongoClient;
+    @Mock private Datastore mockDs;
+    @InjectMocks private CurrenciesManager currenciesManager;
 
-    @Before
+    @Before()
     public void setUp() {
         this.currenciesManager = new CurrenciesManager();
+        when(mockMorphia.createDatastore(mockMongoClient,"exchangeOffice")).thenReturn(mockDs);
 
+        MockitoAnnotations.initMocks(this);
     }
 
     private Object[][] showParameters() {
@@ -60,10 +63,10 @@ public class CurrenciesManagerTest {
                     new BigDecimal(ask,MathContext.DECIMAL64));
 
 
-        currenciesManager.save(currencyCourse);
+         currenciesManager.save(currencyCourse);
 
-        assertThat(currenciesManager.getDs().getDB().getName()).isEqualTo(ds.getDB().getName());
-        //Mockito.verify(morphia).createDatastore(mongoClient, "exchangeOffice");
+        //assertThat(currenciesManager.getDs()).returns();
+        Mockito.verify(mockMorphia).createDatastore(mockMongoClient, "exchangeOffice");
 
     }
 

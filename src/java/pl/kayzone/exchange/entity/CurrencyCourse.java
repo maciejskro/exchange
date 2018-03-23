@@ -1,24 +1,27 @@
 package pl.kayzone.exchange.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import pl.kayzone.exchange.control.helpers.BaseManager;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
+@Entity
 public class CurrencyCourse implements Serializable
 {
 
-
+    @Id
+    private ObjectId id;
     private String idCode;
     private LocalDateTime date;
     private LocalDateTime validTo;
     private BigDecimal bid;
     private BigDecimal ask;
     private Boolean active;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = 6513736575303961048L;
 
     /**
@@ -101,17 +104,15 @@ public class CurrencyCourse implements Serializable
         this.active = active;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("idCode", idCode).append("date", date).append("validTo", validTo).append("bid", bid).append("ask", ask).append("active", active).append("additionalProperties", additionalProperties).toString();
+        return new ToStringBuilder(this)
+                .append("idCode", idCode)
+                .append("date", date)
+                .append("validTo", validTo)
+                .append("bid", bid)
+                .append("ask", ask)
+                .append("active", active).toString();
     }
 }
 

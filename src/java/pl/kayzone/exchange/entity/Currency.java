@@ -1,12 +1,16 @@
 package pl.kayzone.exchange.entity;
 
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity(value="currency")
 public class Currency implements Serializable
 {
-
+    @Id
     private String idCode;
     private String name;
     private String urlNbp;

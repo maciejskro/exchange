@@ -8,14 +8,16 @@ public class BaseManager {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     private MongoClient mongo;
     protected Datastore datastore;
-    private final Morphia morphia = new Morphia();
+    protected final Morphia morphia;
 
-    public BaseManager() {
-        this.mongo = new MongoClient();
+    public BaseManager(Morphia m, MongoClient mc) {
+        this.mongo = mc;
+        this.morphia = m;
+        String packageName = "pl.kayzone.exchange.entity";
+        this.morphia.mapPackage(packageName);
     }
 
-    public BaseManager (String conn) {
-        this();
+    public Datastore getDatastore (String conn) {
         String dbname;
         if (conn != null) {
             this.connectionString = conn;
@@ -23,13 +25,11 @@ public class BaseManager {
         } else {
             dbname = "exchangeOffice";
         }
-        this.datastore = morphia.createDatastore(mongo,dbname);
+        datastore = morphia.createDatastore(mongo,dbname);
         datastore.ensureIndexes();
-    }
-
-    public Datastore getDatastore() {
         return datastore;
     }
+
 
     public Morphia getMorphia() {
         return morphia;

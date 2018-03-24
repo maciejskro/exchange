@@ -40,7 +40,7 @@ public class CurrenciesManagerTest {
 
     @Before()
     public void setUp() {
-        this.currenciesManager = new CurrenciesManager();
+        this.currenciesManager = new CurrenciesManager(mockMongoClient,mockMorphia);
         when(mockMorphia.createDatastore(mockMongoClient,"exchangeOffice")).thenReturn(mockDs);
 
         MockitoAnnotations.initMocks(this);

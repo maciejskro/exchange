@@ -35,13 +35,12 @@ public class  BaseManager<T> {
             return datastore;
     }
 
-
     public Morphia getMorphia() {
-        return morphia;
+        return this.morphia;
     }
 
     public String getConnectionString() {
-        return connectionString;
+        return this.connectionString;
     }
     public DBCollection getCollection(T name) {
         return  this.datastore.getCollection(name.getClass());

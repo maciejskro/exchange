@@ -42,6 +42,14 @@ public class BaseManagerTest {
     }
 
     @Test
+    public void checkIfConnectionStringIsNullThenValidConnectionIsSet() {
+        String conn = null;
+        when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
+        baseManager.getDatastore(conn);
+        assertThat(baseManager.getConnectionString()).isEqualTo(CONNSTR);
+    }
+
+    @Test
     public void checkIfBuildingRightIfConnectionStringIsValid() {
         String conn = CONNSTR;
         String packageString = "pl.kayzone.exchange.entity";
@@ -60,7 +68,7 @@ public class BaseManagerTest {
         //assertNotEquals(mockMorphia,mr);
     }
 
-    @Test
+ /*   @Test
     public void shouldReturnDatastoreWhenNulIsGiven() {
         String conn =null;
         when(baseManager.getDatastore(conn)).thenReturn(mockDS);
@@ -69,7 +77,7 @@ public class BaseManagerTest {
         //Datastore spyDs = spy(ds);
 
     }
-
+*/
     @Test
     public void shouldReturnDatastoreOnProperConnectionString() {
         String conn = "mongodb://127.0.0.1:27017/exchangeOffice";

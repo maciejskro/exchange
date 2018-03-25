@@ -8,7 +8,7 @@ import org.mongodb.morphia.Morphia;
 public class  BaseManager<T> {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     private MongoClient mongo;
-    private final Morphia morphia;
+    private Morphia morphia;
     protected Datastore datastore;
 
     public BaseManager(Morphia m, MongoClient mc) {

@@ -7,8 +7,8 @@ import org.mongodb.morphia.Morphia;
 public class BaseManager {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     private MongoClient mongo;
+    private final Morphia morphia;
     protected Datastore datastore;
-    protected final Morphia morphia;
 
     public BaseManager(Morphia m, MongoClient mc) {
         this.mongo = mc;
@@ -17,17 +17,21 @@ public class BaseManager {
         this.morphia.mapPackage(packageName);
     }
 
+
     public Datastore getDatastore (String conn) {
         String dbname;
-        if (conn != null) {
-            this.connectionString = conn;
-            dbname = connectionString.substring(connectionString.lastIndexOf("/")+1 , connectionString.length());
-        } else {
-            dbname = "exchangeOffice";
-        }
-        datastore = morphia.createDatastore(mongo,dbname);
-        datastore.ensureIndexes();
-        return datastore;
+        if (datastore == null) {
+            if (conn != null) {
+                this.connectionString = conn;
+                dbname = connectionString.substring(connectionString.lastIndexOf("/") + 1, connectionString.length());
+            } else {
+                dbname = "exchangeOffice";
+            }
+            datastore = morphia.createDatastore(mongo, dbname);
+            datastore.ensureIndexes();
+            return  datastore;
+        } else
+            return datastore;
     }
 
 

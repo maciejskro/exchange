@@ -1,5 +1,6 @@
 package pl.kayzone.exchange.control.helpers;
 
+import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,12 +34,21 @@ public class BaseManagerTest {
     }
 
     @Test
-    public void checkIfBuildingRight() {
+    public void checkIfBuildingRightIfConnectionStringIsNull() {
         String conn = null;
+        when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
+        mockDS.ensureIndexes();
+        assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
+    }
+
+    @Test
+    public void checkIfBuildingRightIfConnectionStringIsValid() {
+        String conn = CONNSTR;
         String packageString = "pl.kayzone.exchange.entity";
         when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
         mockDS.ensureIndexes();
         assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
+        assertThat(baseManager.getDatastore(conn).getDB().getName()).isEqualTo(EXCHANGEDBNAME);
     }
 
     @Test

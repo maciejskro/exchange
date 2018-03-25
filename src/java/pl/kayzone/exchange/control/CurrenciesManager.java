@@ -15,7 +15,6 @@ public class CurrenciesManager extends BaseManager {
     CurrenciesManager(MongoClient mc, Morphia morphia) {
         super(morphia, mc);
         this.ds = super.getDatastore("exchangeOffice");
-
     }
 
     public void save(CurrencyCourse currencyCourse) {

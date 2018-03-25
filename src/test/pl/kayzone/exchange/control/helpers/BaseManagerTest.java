@@ -53,6 +53,17 @@ public class BaseManagerTest {
     }
 
     @Test
+    public void checkIfConnStringIsNullThenDefaultDBName() {
+        String conn = null;
+
+        BaseManager bm = mock(BaseManager.class);
+        bm.getDatastore(conn);
+
+        Mockito.verify(bm).getDatastore(nullable(String.class));
+    }
+
+
+    @Test
     public void checkIfEnsureIndexesIsCalled() {
         String conn = CONNSTR;
 
@@ -69,30 +80,25 @@ public class BaseManagerTest {
         verify(mockMorphia).mapPackage(packageString);
     }
 
-
-
-
-
-
     @Test
     public void checkReturnMorphia() {
         BaseManager bm = mock(BaseManager.class);
 
         bm.getDatastore(CONNSTR);
-        bm.getMorphia();
 
         when(bm.getMorphia()).thenReturn(mockMorphia);
        // when(bm.getDatastore(CONNSTR)).thenReturn(mockDS);
         assertThat(bm.getMorphia()).isInstanceOf(Morphia.class);
     }
 
-   /* @Test
-    public void shouldReturnEntityClassCollection() {
+
+    @Test
+    public void shouldReturnMorphiaObject() {
         BaseManager bm = mock(BaseManager.class);
 
-        bm.getCollection(Currency.class);
+        bm.getMorphia();
 
-        assertThat(bm.getCollection(Currency.class)).isInstanceOf(Currency.class);
+        assertThat(baseManager.getMorphia()).isSameAs(mockMorphia);
 
-    }*/
+    }
 }

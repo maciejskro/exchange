@@ -1,6 +1,5 @@
 package pl.kayzone.exchange.control.helpers;
 
-import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,7 +26,6 @@ public class BaseManagerTest {
     @Mock private Datastore mockDS;
     private Datastore ds;
 
-
     @Before
     public void setupClass() {
         this.baseManager = new BaseManager(mockMorphia, mockMongoclient);
@@ -38,6 +36,7 @@ public class BaseManagerTest {
         String conn = null;
         when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
         mockDS.ensureIndexes();
+        baseManager.getDatastore(conn);
         assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
     }
 
@@ -52,40 +51,43 @@ public class BaseManagerTest {
     @Test
     public void checkIfBuildingRightIfConnectionStringIsValid() {
         String conn = CONNSTR;
+        when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
+
+        baseManager.getDatastore(conn);
+
+        verify(mockDS).ensureIndexes();
+    }
+    @Test
+    public  void checkIfPackageMappingIsCreated() {
         String packageString = "pl.kayzone.exchange.entity";
         when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
-        mockDS.ensureIndexes();
-        assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
-        assertThat(baseManager.getDatastore(conn).getDB().getName()).isEqualTo(EXCHANGEDBNAME);
+
+        baseManager.getDatastore(CONNSTR);
+
+        verify(mockMorphia).mapPackage(packageString);
     }
+
 
     @Test
     public void checkFinalMorphia() {
         Morphia mr = new Morphia();
         Morphia mockMorphia = mock(Morphia.class);
+        BaseManager bm = mock(BaseManager.class);
 
+
+        bm.getDatastore(CONNSTR);
         when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
-        //assertNotEquals(mockMorphia,mr);
+        assertThat(bm.getMorphia()).isInstanceOf(Morphia.class);
     }
 
- /*   @Test
-    public void shouldReturnDatastoreWhenNulIsGiven() {
-        String conn =null;
-        when(baseManager.getDatastore(conn)).thenReturn(mockDS);
 
-        //Datastore ds = baseManager.getDatastore(conn);
-        //Datastore spyDs = spy(ds);
-
-    }
-*/
     @Test
     public void shouldReturnDatastoreOnProperConnectionString() {
         String conn = "mongodb://127.0.0.1:27017/exchangeOffice";
 
-        this.baseManager.getDatastore(conn);
-
-        //verify(mockDS).ensureIndexes();
         when(baseManager.getDatastore(conn)).thenReturn(mockDS);
-        verify(baseManager.getDatastore(conn)).ensureIndexes();
+        BaseManager bm = mock(BaseManager.class);
+
+        assertThat(bm.getConnectionString()).isEqualTo(CONNSTR);
     }
 }

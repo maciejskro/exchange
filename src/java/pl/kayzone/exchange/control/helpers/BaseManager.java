@@ -1,10 +1,11 @@
 package pl.kayzone.exchange.control.helpers;
 
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-public class BaseManager {
+public class  BaseManager<T> {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     private MongoClient mongo;
     private final Morphia morphia;
@@ -41,6 +42,9 @@ public class BaseManager {
 
     public String getConnectionString() {
         return connectionString;
+    }
+    public DBCollection getCollection(T name) {
+        return  this.datastore.getCollection(name.getClass());
     }
 }
 

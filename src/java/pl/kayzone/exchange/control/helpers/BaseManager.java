@@ -5,7 +5,7 @@ import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-public class  BaseManager<T> {
+public class  BaseManager {
     protected String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     protected MongoClient mongo;
     protected Morphia morphia;
@@ -41,8 +41,6 @@ public class  BaseManager<T> {
     public String getConnectionString() {
         return this.connectionString;
     }
-    public DBCollection getCollection(T name) {
-        return  this.datastore.getCollection(name.getClass());
-    }
+
 }
 

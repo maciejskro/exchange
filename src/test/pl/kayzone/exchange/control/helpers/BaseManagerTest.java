@@ -1,6 +1,7 @@
 package pl.kayzone.exchange.control.helpers;
 
 import com.mongodb.MongoClient;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import pl.kayzone.exchange.entity.DummyEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -30,6 +32,8 @@ public class BaseManagerTest {
     public void setupClass() {
         baseManager = new BaseManager(mockMorphia, mockMongoclient);
         when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
+        mockMorphia.map(DummyEntity.class);
+       // when(baseManager.getDatastore(CONNSTR)).thenReturn(mockDS);
     }
 
     @Test
@@ -72,7 +76,7 @@ public class BaseManagerTest {
         verify(mockDS).ensureIndexes();
     }
     @Test
-    public  void checkIfPackageMappingIsCreated() {
+    public  void checkIfPackageMappingIsCreated() throws  Exception{
         String packageString = "pl.kayzone.exchange.entity";
 
         baseManager.getDatastore(CONNSTR);
@@ -81,24 +85,28 @@ public class BaseManagerTest {
     }
 
     @Test
-    public void checkReturnMorphia() {
+    public void checkReturnMorphia() throws Exception {
         BaseManager bm = mock(BaseManager.class);
 
         bm.getDatastore(CONNSTR);
 
         when(bm.getMorphia()).thenReturn(mockMorphia);
-       // when(bm.getDatastore(CONNSTR)).thenReturn(mockDS);
-        assertThat(bm.getMorphia()).isInstanceOf(Morphia.class);
+
+        assertThat(bm.getMorphia()).isEqualTo(mockMorphia);
     }
 
 
     @Test
-    public void shouldReturnMorphiaObject() {
+    public void shouldReturnMorphiaObject() throws Exception {
         BaseManager bm = mock(BaseManager.class);
 
         bm.getMorphia();
 
         assertThat(baseManager.getMorphia()).isSameAs(mockMorphia);
 
+    }
+    @After
+    public void tearDown() throws Exception {
+        reset(mockMorphia,mockMongoclient,mockDS);
     }
 }

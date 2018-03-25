@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import pl.kayzone.exchange.entity.Currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -76,8 +77,9 @@ public class BaseManagerTest {
 
 
         bm.getDatastore(CONNSTR);
-        when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
-        assertThat(bm.getMorphia()).isInstanceOf(Morphia.class);
+        when(bm.getDatastore(CONNSTR)).thenReturn(mockDS);
+        //assertThat(bm.getMorphia()).isInstanceOf(Morphia.class);
+        verify(bm).getMorphia();
     }
 
 
@@ -89,5 +91,17 @@ public class BaseManagerTest {
         BaseManager bm = mock(BaseManager.class);
 
         assertThat(bm.getConnectionString()).isEqualTo(CONNSTR);
+    }
+
+    @Test
+    public void shouldReturnEntityClassCollection() {
+
+        Datastore ds = mock(Datastore.class);
+        BaseManager bm = mock(BaseManager.class);
+
+        bm.getCollection(Currency.class);
+
+        assertThat(bm.getCollection(Currency.class)).isInstanceOf(Currency.class);
+
     }
 }

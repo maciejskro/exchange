@@ -11,10 +11,11 @@ public class CurrenciesManager extends BaseManager {
 
     private Datastore ds;
 
+
     CurrenciesManager(MongoClient mc, Morphia morphia) {
         super(morphia, mc);
-        this.ds = super.getMorphia().createDatastore(new MongoClient(), "exchangeOffice");
-        ds.ensureIndexes();
+        this.ds = super.getDatastore("exchangeOffice");
+
     }
 
     public void save(CurrencyCourse currencyCourse) {

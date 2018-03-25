@@ -36,14 +36,11 @@ public class CurrenciesManagerTest {
     @Mock private Morphia mockMorphia;
     @Mock private MongoClient mockMongoClient;
     @Mock private Datastore mockDs;
-    @InjectMocks private CurrenciesManager currenciesManager;
+    private CurrenciesManager currenciesManager;
 
     @Before()
     public void setUp() {
         this.currenciesManager = new CurrenciesManager(mockMongoClient,mockMorphia);
-        when(mockMorphia.createDatastore(mockMongoClient,"exchangeOffice")).thenReturn(mockDs);
-
-        MockitoAnnotations.initMocks(this);
     }
 
     private Object[][] showParameters() {
@@ -57,16 +54,15 @@ public class CurrenciesManagerTest {
     @Test
     @Parameters(method = "showParameters")
     public void shouldShowListOfAvailableCurrencies(String code , Double rate , Double bid, Double ask) {
-        Currency currency = new Currency (code , rate);
+        // Currency currency = new Currency (code , rate);
         CurrencyCourse currencyCourse = new CurrencyCourse(code, code,
                     new BigDecimal(bid, MathContext.DECIMAL64),
                     new BigDecimal(ask,MathContext.DECIMAL64));
 
-
          currenciesManager.save(currencyCourse);
 
         //assertThat(currenciesManager.getDs()).returns();
-        Mockito.verify(mockMorphia).createDatastore(mockMongoClient, "exchangeOffice");
+        Mockito.verify(currenciesManager).save(currencyCourse);
 
     }
 

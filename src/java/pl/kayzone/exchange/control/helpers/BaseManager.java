@@ -6,9 +6,9 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 public class  BaseManager<T> {
-    private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
-    private MongoClient mongo;
-    private Morphia morphia;
+    protected String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
+    protected MongoClient mongo;
+    protected Morphia morphia;
     protected Datastore datastore;
 
     public BaseManager(Morphia m, MongoClient mc) {
@@ -17,7 +17,6 @@ public class  BaseManager<T> {
         String packageName = "pl.kayzone.exchange.entity";
         this.morphia.mapPackage(packageName);
     }
-
 
     public Datastore getDatastore (String conn) {
         String dbname;

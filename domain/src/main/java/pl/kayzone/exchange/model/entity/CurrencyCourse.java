@@ -1,10 +1,9 @@
-package pl.kayzone.exchange.entity;
+package pl.kayzone.exchange.model.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
-import pl.kayzone.exchange.control.helpers.BaseManager;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package pl.kayzone.exchange.entity;
+package pl.kayzone.exchange.model.entity;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -16,7 +16,6 @@ public class Currency implements Serializable
     private String urlNbp;
     private String tablesType;
     private Double rates;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = -8773799396147693543L;
 
     /**
@@ -86,14 +85,6 @@ public class Currency implements Serializable
 
     public void setRates(Double rates) {
         this.rates = rates;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

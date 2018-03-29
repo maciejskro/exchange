@@ -1,17 +1,11 @@
-package pl.kayzone.exchange.control.helpers;
+package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import pl.kayzone.exchange.entity.DummyEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -20,27 +14,27 @@ import static org.mockito.Mockito.*;
 public class BaseManagerTest {
 
 
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
     private static final String EXCHANGEDBNAME = "exchangeOffice";
     private static final String CONNSTR = "mongodb://127.0.0.1:27017/" + EXCHANGEDBNAME;
     private BaseManager baseManager;
-    @Mock private Morphia mockMorphia;
-    @Mock private MongoClient mockMongoclient;
-    @Mock private Datastore mockDS;
+    private Morphia morphia;
+    private MongoClient mongoClient;
+    private Datastore ds;
 
     @Before
     public void setupClass() {
-        baseManager = new BaseManager(mockMorphia, mockMongoclient);
-        when(mockMorphia.createDatastore(mockMongoclient,EXCHANGEDBNAME)).thenReturn(mockDS);
-        mockMorphia.map(DummyEntity.class);
-       // when(baseManager.getDatastore(CONNSTR)).thenReturn(mockDS);
+        morphia = new Morphia();
+        mongoClient = new MongoClient();
+        baseManager = new BaseManager(morphia, mongoClient);
+
+        ds = morphia.createDatastore(mongoClient,EXCHANGEDBNAME);
     }
 
     @Test
     public void checkIfBuildingRightIfConnectionStringIsNull() {
         String conn = null;
 
-        mockDS.ensureIndexes();
+        ds.ensureIndexes();
 
         baseManager.getDatastore(conn);
 
@@ -63,7 +57,7 @@ public class BaseManagerTest {
         BaseManager bm = mock(BaseManager.class);
         bm.getDatastore(conn);
 
-        Mockito.verify(bm).getDatastore(nullable(String.class));
+        verify(bm).getDatastore(nullable(String.class));
     }
 
 
@@ -73,7 +67,7 @@ public class BaseManagerTest {
 
         baseManager.getDatastore(conn);
 
-        verify(mockDS).ensureIndexes();
+        verify(ds).ensureIndexes();
     }
     @Test
     public  void checkIfPackageMappingIsCreated() throws  Exception{
@@ -81,7 +75,7 @@ public class BaseManagerTest {
 
         baseManager.getDatastore(CONNSTR);
 
-        verify(mockMorphia).mapPackage(packageString);
+        verify(morphia).mapPackage(packageString);
     }
 
     @Test
@@ -90,9 +84,9 @@ public class BaseManagerTest {
 
         bm.getDatastore(CONNSTR);
 
-        when(bm.getMorphia()).thenReturn(mockMorphia);
+        when(bm.getMorphia()).thenReturn(morphia);
 
-        assertThat(bm.getMorphia()).isEqualTo(mockMorphia);
+        assertThat(bm.getMorphia()).isEqualTo(morphia);
     }
 
 
@@ -102,11 +96,12 @@ public class BaseManagerTest {
 
         bm.getMorphia();
 
-        assertThat(baseManager.getMorphia()).isSameAs(mockMorphia);
+        assertThat(baseManager.getMorphia()).isSameAs(morphia);
 
     }
     @After
     public void tearDown() throws Exception {
-        reset(mockMorphia,mockMongoclient,mockDS);
+        reset(morphia,mongoClient,ds);
+
     }
 }

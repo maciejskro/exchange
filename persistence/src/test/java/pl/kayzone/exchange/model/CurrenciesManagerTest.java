@@ -1,26 +1,22 @@
-package pl.kayzone.exchange.control;
+package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import pl.kayzone.exchange.control.helpers.BaseManager;
-import pl.kayzone.exchange.entity.Currency;
-import pl.kayzone.exchange.entity.CurrencyCourse;
-import pl.kayzone.exchange.entity.DummyEntity;
+import pl.kayzone.exchange.model.entity.CurrencyCourse;
+import pl.kayzone.exchange.model.entity.DummyEntity;
+
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -28,12 +24,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(JUnitParamsRunner.class)
@@ -103,7 +95,6 @@ public class CurrenciesManagerTest {
 
         Datastore ds = currenciesManager.getDatastore(CONNSTR);
         Morphia m = new Morphia().map(DummyEntity.class);
-
 
        assertThat(currenciesManager.find()).asList();
 

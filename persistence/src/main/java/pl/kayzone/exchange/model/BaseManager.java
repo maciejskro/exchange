@@ -1,4 +1,4 @@
-package pl.kayzone.exchange.control.helpers;
+package pl.kayzone.exchange.model;
 
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;

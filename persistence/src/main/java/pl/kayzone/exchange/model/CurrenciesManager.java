@@ -1,12 +1,12 @@
-package pl.kayzone.exchange.control;
+package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import pl.kayzone.exchange.control.helpers.BaseManager;
-import pl.kayzone.exchange.entity.CurrencyCourse;
+import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
 import java.util.List;
+
 
 public class CurrenciesManager extends BaseManager {
 

@@ -1,4 +1,4 @@
-package pl.kayzone.exchange.entity;
+package pl.kayzone.exchange.model.entity;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
@@ -11,12 +11,12 @@ public class DummyEntity {
     @Id
     private ObjectId id;
 
-    @Property("s")
-    private String someString;
+    @Property("version")
+    private String version;
 
 
-    public DummyEntity(String someString) {
-        this.someString = someString;
+    public DummyEntity(String version) {
+        this.version = version;
     }
 
 
@@ -30,12 +30,12 @@ public class DummyEntity {
     }
 
 
-    public String getSomeString() {
-        return someString;
+    public String getVersion() {
+        return version;
     }
 
 
-    public void setSomeString(String someString) {
-        this.someString = someString;
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

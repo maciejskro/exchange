@@ -8,6 +8,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class CurrencyCourse implements Serializable
@@ -113,5 +114,26 @@ public class CurrencyCourse implements Serializable
                 .append("ask", ask)
                 .append("active", active).toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CurrencyCourse)) return false;
+        CurrencyCourse that = (CurrencyCourse) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(getIdCode(), that.getIdCode()) &&
+                Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getValidTo(), that.getValidTo()) &&
+                Objects.equals(getBid(), that.getBid()) &&
+                Objects.equals(getAsk(), that.getAsk()) &&
+                Objects.equals(getActive(), that.getActive());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, getIdCode(), getDate(), getValidTo(), getBid(), getAsk(), getActive());
+    }
+
 }
 

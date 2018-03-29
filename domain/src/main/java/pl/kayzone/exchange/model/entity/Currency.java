@@ -6,6 +6,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity(value="currency")
 public class Currency implements Serializable
@@ -85,6 +86,35 @@ public class Currency implements Serializable
 
     public void setRates(Double rates) {
         this.rates = rates;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Currency)) return false;
+        Currency currency = (Currency) o;
+        return Objects.equals(getIdCode(), currency.getIdCode()) &&
+                Objects.equals(getName(), currency.getName()) &&
+                Objects.equals(getUrlNbp(), currency.getUrlNbp()) &&
+                Objects.equals(getTablesType(), currency.getTablesType()) &&
+                Objects.equals(getRates(), currency.getRates());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getIdCode(), getName(), getUrlNbp(), getTablesType(), getRates());
+    }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "idCode='" + idCode + '\'' +
+                ", name='" + name + '\'' +
+                ", urlNbp='" + urlNbp + '\'' +
+                ", tablesType='" + tablesType + '\'' +
+                ", rates=" + rates +
+                '}';
     }
 
 }

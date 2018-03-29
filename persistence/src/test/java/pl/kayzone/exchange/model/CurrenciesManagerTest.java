@@ -39,7 +39,7 @@ public class CurrenciesManagerTest {
     @Mock private Morphia mockMorphia;
     @Mock private MongoClient mockMongoClient;
     @Mock private Datastore mockDs;
-    private Datastore ds;
+    @Mock private Datastore ds;
     private CurrenciesManager currenciesManager;
     private BaseManager baseManager;
     private static Set<DummyEntity> entitySet;

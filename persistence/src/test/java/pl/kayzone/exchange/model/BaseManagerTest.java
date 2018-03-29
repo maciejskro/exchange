@@ -1,11 +1,12 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
+import pl.kayzone.exchange.model.entity.Currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -20,6 +21,7 @@ public class BaseManagerTest {
     private Morphia morphia;
     private MongoClient mongoClient;
     private Datastore ds;
+    private Currency currency;
 
     @Before
     public void setupClass() {
@@ -28,6 +30,12 @@ public class BaseManagerTest {
         baseManager = new BaseManager(morphia, mongoClient);
 
         ds = morphia.createDatastore(mongoClient,EXCHANGEDBNAME);
+        currency = new Currency();
+        currency.setIdCode("USD");
+        currency.setName("dolar amerykański");
+        currency.setRates(1.0);
+        currency.setTablesType("A");
+        currency.setUrlNbp("http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/");
     }
 
     @Test
@@ -36,9 +44,10 @@ public class BaseManagerTest {
 
         ds.ensureIndexes();
 
-        baseManager.getDatastore(conn);
+        Datastore ds2 = baseManager.getDatastore(conn);
 
         assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
+        assertThat(ds2.getDB().getName()).isEqualTo(EXCHANGEDBNAME);
     }
 
     @Test
@@ -60,48 +69,35 @@ public class BaseManagerTest {
         verify(bm).getDatastore(nullable(String.class));
     }
 
-
     @Test
-    public void checkIfEnsureIndexesIsCalled() {
-        String conn = CONNSTR;
-
-        baseManager.getDatastore(conn);
-
-        verify(ds).ensureIndexes();
-    }
-    @Test
-    public  void checkIfPackageMappingIsCreated() throws  Exception{
-        String packageString = "pl.kayzone.exchange.entity";
+    public void checkReturnMorphia() throws Exception {
 
         baseManager.getDatastore(CONNSTR);
 
-        verify(morphia).mapPackage(packageString);
+        assertThat(baseManager.getMorphia()).isEqualTo(morphia);
     }
 
     @Test
-    public void checkReturnMorphia() throws Exception {
-        BaseManager bm = mock(BaseManager.class);
+    public void checkIfCanSaveSimpleObject() {
+        String conn = CONNSTR;
 
-        bm.getDatastore(CONNSTR);
-
-        when(bm.getMorphia()).thenReturn(morphia);
-
-        assertThat(bm.getMorphia()).isEqualTo(morphia);
+        Query<Currency> q =
+                baseManager.getDatastore(null).createQuery(Currency.class);
+        Currency curr = q.field("_id").equal("USD").get();
+        if (curr.getIdCode() != currency.getIdCode()) {
+            baseManager.getDatastore(conn).save(currency);
+        }
+        assertThat(baseManager.getDatastore(conn).save(currency));
     }
-
-
     @Test
-    public void shouldReturnMorphiaObject() throws Exception {
-        BaseManager bm = mock(BaseManager.class);
+    public void checkIfCanFindSavedObjectBefore()  {
+        Query<Currency> q =
+                baseManager.getDatastore(null).createQuery(Currency.class);
+        Currency curr = q.field("_id").equal("USD").get();
 
-        bm.getMorphia();
-
-        assertThat(baseManager.getMorphia()).isSameAs(morphia);
-
-    }
-    @After
-    public void tearDown() throws Exception {
-        reset(morphia,mongoClient,ds);
+        assertThat(curr.getIdCode()).isEqualTo(currency.getIdCode());
+        assertThat(curr.getName()).isEqualTo(currency.getName());
 
     }
+
 }

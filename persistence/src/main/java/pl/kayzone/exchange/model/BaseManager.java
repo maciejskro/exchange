@@ -14,7 +14,7 @@ public class  BaseManager {
     public BaseManager(Morphia m, MongoClient mc) {
         this.mongo = mc;
         this.morphia = m;
-        String packageName = "pl.kayzone.exchange.entity";
+        String packageName = "pl.kayzone.exchange.model.entity";
         this.morphia.mapPackage(packageName);
     }
 
@@ -41,6 +41,7 @@ public class  BaseManager {
     public String getConnectionString() {
         return this.connectionString;
     }
+
 
 }
 

@@ -21,8 +21,14 @@ public class CurrenciesCourseManager extends BaseManager {
     public void save(CurrencyCourse cc) {
         this.ds.save(cc);
     }
+
     public List<CurrencyCourse> findAll() {
         return query.asList();
     }
 
+    public CurrencyCourse findActualCourse(String code) {
+        query.and(query.criteria("active").equal(true),
+                 query.criteria("idCode").equal(code));
+        return query.get();
+    }
 }

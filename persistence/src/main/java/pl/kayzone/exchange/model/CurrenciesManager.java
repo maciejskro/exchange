@@ -21,7 +21,6 @@ public class CurrenciesManager extends BaseManager {
         super(morphia, mc);
         this.ds = super.getDatastore("exchangeOffice");
         query = getDatastore(getConnectionString()).createQuery(Currency.class);
-
     }
 
     public void save(Currency currency) {

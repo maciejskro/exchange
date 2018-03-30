@@ -14,9 +14,8 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import pl.kayzone.exchange.model.entity.CurrencyCourse;
+import pl.kayzone.exchange.model.entity.Currency;
 import pl.kayzone.exchange.model.entity.DummyEntity;
-
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -72,13 +71,15 @@ public class CurrenciesManagerTest {
     @Parameters(method = "showParameters")
     public void shouldSaveAnyObject(String code , Double rate , Double bid, Double ask) {
         // Currency currency = new Currency (code , rate);
-        CurrencyCourse currencyCourse = new CurrencyCourse(code, code,
+        Currency currency = new Currency();
+       /* currency
+                (code, code,
                     new BigDecimal(bid, MathContext.DECIMAL64),
-                    new BigDecimal(ask,MathContext.DECIMAL64));
+                    new BigDecimal(ask,MathContext.DECIMAL64));*/
 
-         currenciesManager.save(currencyCourse);
+         currenciesManager.save(currency);
 
-        Mockito.verify(currenciesManager).save(currencyCourse);
+        Mockito.verify(currenciesManager).save(currency);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class CurrenciesManagerTest {
 
         currenciesManager.save(null);
 
-        Mockito.verify(currenciesManager).save(nullable(CurrencyCourse.class));
+        Mockito.verify(currenciesManager).save(nullable(Currency.class));
     }
 
     @Test
@@ -96,7 +97,7 @@ public class CurrenciesManagerTest {
         Datastore ds = currenciesManager.getDatastore(CONNSTR);
         Morphia m = new Morphia().map(DummyEntity.class);
 
-       assertThat(currenciesManager.find()).asList();
+       assertThat(currenciesManager.findAll()).asList();
 
     }
 

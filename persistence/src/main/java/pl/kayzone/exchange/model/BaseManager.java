@@ -1,6 +1,5 @@
 package pl.kayzone.exchange.model;
 
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;

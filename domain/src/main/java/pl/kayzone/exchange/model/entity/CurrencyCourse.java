@@ -1,9 +1,8 @@
 package pl.kayzone.exchange.model.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Reference;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,11 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class CurrencyCourse implements Serializable
+public class CurrencyCourse extends BaseEntity implements Serializable
 {
-
-    @Id
-    private ObjectId id;
+    @Reference
     private String idCode;
     private LocalDateTime date;
     private LocalDateTime validTo;
@@ -120,8 +117,7 @@ public class CurrencyCourse implements Serializable
         if (this == o) return true;
         if (!(o instanceof CurrencyCourse)) return false;
         CurrencyCourse that = (CurrencyCourse) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(getIdCode(), that.getIdCode()) &&
+        return  Objects.equals(getIdCode(), that.getIdCode()) &&
                 Objects.equals(getDate(), that.getDate()) &&
                 Objects.equals(getValidTo(), that.getValidTo()) &&
                 Objects.equals(getBid(), that.getBid()) &&
@@ -132,7 +128,7 @@ public class CurrencyCourse implements Serializable
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, getIdCode(), getDate(), getValidTo(), getBid(), getAsk(), getActive());
+        return Objects.hash(getIdCode(), getDate(), getValidTo(), getBid(), getAsk(), getActive());
     }
 
 }

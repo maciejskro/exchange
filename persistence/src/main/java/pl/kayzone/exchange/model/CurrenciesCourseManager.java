@@ -2,7 +2,6 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
@@ -13,8 +12,8 @@ public class CurrenciesCourseManager extends BaseManager {
     private Datastore ds;
     private Query<CurrencyCourse> query;
 
-    CurrenciesCourseManager(Morphia m, MongoClient mc) {
-        super(m, mc);
+    CurrenciesCourseManager(MongoClient mc) {
+        super(mc);
         this.ds = super.getDatastore("exchangeOffice");
         query = getDatastore(getConnectionString()).createQuery(CurrencyCourse.class);
     }

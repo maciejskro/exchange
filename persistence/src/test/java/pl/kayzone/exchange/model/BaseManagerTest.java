@@ -27,7 +27,7 @@ public class BaseManagerTest {
     public void setupClass() {
         morphia = new Morphia();
         mongoClient = new MongoClient();
-        baseManager = new BaseManager(morphia, mongoClient);
+        baseManager = new BaseManager(mongoClient);
 
         ds = morphia.createDatastore(mongoClient,EXCHANGEDBNAME);
         currency = new Currency();

@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(value = "courses")
 public class CurrencyCourse extends BaseEntity implements Serializable
 {
     @Reference

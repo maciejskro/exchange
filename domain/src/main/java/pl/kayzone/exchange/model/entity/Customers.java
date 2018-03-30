@@ -2,10 +2,11 @@ package pl.kayzone.exchange.model.entity;
 
 import org.mongodb.morphia.annotations.Entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-public class Customers extends BaseEntity {
+@Entity(value = "customers")
+public class Customers extends BaseEntity implements Serializable {
 
 
     private String name;

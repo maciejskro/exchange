@@ -19,23 +19,18 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class CurrenciesManagerTest {
-    @Mock
+public class CurrenciesManagerTestIntegraTest {
     Datastore ds;
-    @Mock
     Query<Currency> query;
-    @Mock
     MongoClient mongo;
-    @Mock
     Morphia morphia;
-    @Mock
     Datastore datastore;
-    @InjectMocks
     CurrenciesManager currenciesManager;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+       // MockitoAnnotations.initMocks(this);
+        currenciesManager = new CurrenciesManager(new MongoClient());
     }
 
     @Test

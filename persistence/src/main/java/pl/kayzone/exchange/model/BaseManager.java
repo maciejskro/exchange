@@ -10,9 +10,9 @@ public class  BaseManager {
     protected Morphia morphia;
     protected Datastore datastore;
 
-    public BaseManager(Morphia m, MongoClient mc) {
+    public BaseManager( MongoClient mc) {
         this.mongo = mc;
-        this.morphia = m;
+        this.morphia = getMorphia();
         String packageName = "pl.kayzone.exchange.model.entity";
         this.morphia.mapPackage(packageName);
     }
@@ -34,7 +34,10 @@ public class  BaseManager {
     }
 
     public Morphia getMorphia() {
-        return this.morphia;
+        final Morphia morphia = new Morphia();
+        String packageName = "pl.kayzone.exchange.model.entity";
+        morphia.mapPackage(packageName);
+        return morphia;
     }
 
     public String getConnectionString() {

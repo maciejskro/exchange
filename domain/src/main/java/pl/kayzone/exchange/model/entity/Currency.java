@@ -1,9 +1,12 @@
 package pl.kayzone.exchange.model.entity;
 
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.PrePersist;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -17,6 +20,7 @@ public class Currency implements Serializable
     private String urlNbp;
     private String tablesType;
     private Double rates;
+    private LocalDateTime lastUpdate;
     private final static long serialVersionUID = -8773799396147693543L;
 
     /**
@@ -41,7 +45,10 @@ public class Currency implements Serializable
         this.urlNbp = urlNbp;
         this.tablesType = tablesType;
         this.rates = rates;
+        this.lastUpdate = LocalDateTime.now();
     }
+
+
 
     public Currency(String idCode, Double rates) {
         this(idCode, "", "","A",1.0);
@@ -88,6 +95,14 @@ public class Currency implements Serializable
         this.rates = rates;
     }
 
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,13 +112,14 @@ public class Currency implements Serializable
                 Objects.equals(getName(), currency.getName()) &&
                 Objects.equals(getUrlNbp(), currency.getUrlNbp()) &&
                 Objects.equals(getTablesType(), currency.getTablesType()) &&
-                Objects.equals(getRates(), currency.getRates());
+                Objects.equals(getRates(), currency.getRates()) &&
+                Objects.equals(getLastUpdate(), currency.getLastUpdate());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(getIdCode(), getName(), getUrlNbp(), getTablesType(), getRates());
+        return Objects.hash(getIdCode(), getName(), getUrlNbp(), getTablesType(), getRates(), getLastUpdate());
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import pl.kayzone.exchange.model.entity.helpers.TestClassCreator;
 
 import java.math.BigDecimal;
 
@@ -29,8 +30,9 @@ public class CurrencyCourseTest {
 
     @Test
     public void testToString() throws Exception {
-        String result = currencyCourse.toString();
-        Assert.assertEquals("[idCode=<null>,date=<null>,validTo=<null>,bid=bid,ask=bid,active=<null>]", result);
+        String result = (new TestClassCreator()).getCurrency().toString();
+        Assert.assertEquals("Currency{idCode='USD', name='dolar amerykański'," +
+                " urlNbp='http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/', tablesType='A', rates=1.0}", result);
     }
 
     @Test
@@ -41,8 +43,8 @@ public class CurrencyCourseTest {
 
     @Test
     public void testHashCode() throws Exception {
-        int result = currencyCourse.hashCode();
-        Assert.assertEquals(0, result);
+        int result = (new TestClassCreator()).getCurrency().hashCode();
+        Assert.assertEquals((new TestClassCreator()).getCurrency().hashCode(), result);
     }
 }
 

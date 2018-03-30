@@ -108,8 +108,8 @@ public class Customers extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return "Customers{" +
-                "id=" + super.getId().toString() +
-                ", name='" + name + '\'' +
+                //"id=" + super.getId().toString() +
+                "name='" + name + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +
                 ", address='" + address + '\'' +

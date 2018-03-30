@@ -1,18 +1,20 @@
-package pl.kayzone.exchange.model.helpers;
+package pl.kayzone.exchange.model.entity.helpers;
 
 import org.bson.types.ObjectId;
 import pl.kayzone.exchange.model.entity.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TestClassCreator {
 
-    private Currency currency;
-    private CurrencyCourse currencyCourse;
-    private Customers customers;
-    private Transaction transaction;
-    private TransactionCurrency transactionCurrency;
+    Currency currency;
+    CurrencyCourse currencyCourse;
+    Customers customers;
+    Transaction transaction;
+    TransactionCurrency transactionCurrency;
 
     public TestClassCreator() {
 
@@ -54,6 +56,26 @@ public class TestClassCreator {
              customers.setCountry("Poland");
              customers.setNip("883-220-90-33");
         return customers;
+    }
+
+    public TransactionCurrency getTransactionCurrency() {
+        this.transactionCurrency = new TransactionCurrency();
+             transactionCurrency.setCurrencyCourse(getCurrencyCourse());
+             transactionCurrency.setCourse(BigDecimal.valueOf(3.44));
+             transactionCurrency.setQuantity(BigDecimal.valueOf(100.00));
+             return transactionCurrency;
+    }
+    public Transaction getTransaction() {
+        Set<TransactionCurrency> items = new HashSet<>();
+         items.add(getTransactionCurrency());
+        this.transaction = new Transaction();
+             transaction.setId(new ObjectId());
+             transaction.setCustomers(getCustomers());
+             transaction.setTransactionCurrencyList(items);
+             transaction.setTransactionTime(LocalDateTime.now());
+             BigDecimal value  = getTransactionCurrency().getQuantity().multiply(getTransactionCurrency().getCourse());
+             transaction.setValueTransaction(value);
+             return transaction;
     }
 }
 

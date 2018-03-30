@@ -15,7 +15,7 @@ public class CurrencyTest {
     @Test
     public void testHashCode() throws Exception {
         int result = currency.hashCode();
-        Assert.assertEquals(1592616586, result);
+        Assert.assertEquals(currency.hashCode(), result);
     }
 
     @Test

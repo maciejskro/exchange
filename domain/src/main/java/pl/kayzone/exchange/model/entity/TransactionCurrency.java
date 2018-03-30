@@ -4,6 +4,7 @@ import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Reference;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Embedded
 public class TransactionCurrency  {
@@ -35,5 +36,21 @@ public class TransactionCurrency  {
 
     public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TransactionCurrency)) return false;
+        TransactionCurrency that = (TransactionCurrency) o;
+        return Objects.equals(getCurrencyCourse(), that.getCurrencyCourse()) &&
+                Objects.equals(getCourse(), that.getCourse()) &&
+                Objects.equals(getQuantity(), that.getQuantity());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getCurrencyCourse(), getCourse(), getQuantity());
     }
 }

@@ -6,6 +6,7 @@ import org.mongodb.morphia.annotations.Reference;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(value = "transactions")
@@ -49,4 +50,22 @@ public class Transaction extends BaseEntity implements Serializable {
     public void setTransactionTime(LocalDateTime transactionTime) {
         this.transactionTime = transactionTime;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transaction)) return false;
+        Transaction that = (Transaction) o;
+        return Objects.equals(getCustomers(), that.getCustomers()) &&
+                Objects.equals(getValueTransaction(), that.getValueTransaction()) &&
+                Objects.equals(getTransactionCurrencyList(), that.getTransactionCurrencyList()) &&
+                Objects.equals(getTransactionTime(), that.getTransactionTime());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getCustomers(), getValueTransaction(), getTransactionCurrencyList(), getTransactionTime());
+    }
+
 }

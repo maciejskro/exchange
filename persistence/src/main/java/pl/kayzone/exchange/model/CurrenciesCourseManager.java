@@ -2,6 +2,7 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -37,8 +38,9 @@ public class CurrenciesCourseManager extends BaseManager {
     }
 
     public CurrencyCourse findActualCourse(String code) {
-        query.and(query.criteria("active").equal(true),
-                 query.criteria("idCode").equal(code));
+        ds.find(CurrencyCourse.class).disableValidation();
+        query.field("active").equal(true)
+             .field("idCode").equal(ds.get(Currency.class,code) );
         return query.get();
     }
     public UpdateOperations<CurrencyCourse> createOperations() {

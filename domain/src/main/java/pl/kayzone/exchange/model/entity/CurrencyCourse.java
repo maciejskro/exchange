@@ -1,8 +1,7 @@
 package pl.kayzone.exchange.model.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Reference;
+import org.mongodb.morphia.annotations.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,6 +9,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(value = "courses")
+@Indexes({
+        @Index(value = "idCode", fields = @Field("idCode")),
+        @Index(value = "active", fields = @Field("active"))
+})
 public class CurrencyCourse extends BaseEntity implements Serializable
 {
     @Reference
@@ -94,6 +97,13 @@ public class CurrencyCourse extends BaseEntity implements Serializable
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public String getStrictNBPuriAddress() {
+        String result = getIdCode().getUrlNbp()
+                .replace("{table}",getIdCode().getTablesType())
+                .replace("{code}",getIdCode().getIdCode());
+        return result;
     }
 
     @Override

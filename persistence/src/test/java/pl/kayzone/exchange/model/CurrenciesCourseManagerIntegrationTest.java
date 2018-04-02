@@ -15,8 +15,9 @@ import pl.kayzone.exchange.model.helpers.TestClassCreator;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CurrenciesCourseManagerIntegrationTest {
@@ -43,19 +44,21 @@ public class CurrenciesCourseManagerIntegrationTest {
     public void t1_testSave() throws Exception {
         CurrencyCourse ccm = tcc.getCurrencyCourse();
         currenciesCourseManager.save(ccm);
-
     }
 
     @Test
     public void t2_testFindAll() throws Exception {
         List<CurrencyCourse> result = currenciesCourseManager.findAll();
-        Assert.assertEquals(Arrays.<CurrencyCourse>asList(new CurrencyCourse(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), new BigDecimal(0), new BigDecimal(0), Boolean.TRUE)), result);
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
     public void t3_testFindActualCourse() throws Exception {
-        CurrencyCourse result = currenciesCourseManager.findActualCourse("code");
-        Assert.assertEquals(new CurrencyCourse(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), new BigDecimal(0), new BigDecimal(0), Boolean.TRUE), result);
+        CurrencyCourse result = currenciesCourseManager.findActualCourse("USD");
+        System.out.println(result.getValidTo());
+      //  assertThat(result.getIdCode()).isEqualTo(tcc.getCurrency());
+        assertThat(result.getActive()).isEqualTo(true);
     }
 
     @Test
@@ -90,8 +93,8 @@ public class CurrenciesCourseManagerIntegrationTest {
     public static void removeAllCollections() {
         //CurrenciesManager cm = new CurrenciesManager(new MongoClient(),new Morphia());
        // cm.getDs().delete(new TestClassCreator().getCurrency());
-       // CurrenciesCourseManager ccm = new CurrenciesCourseManager(new MongoClient(), new Morphia());
-       // ccm.getDatastore(null).delete(new TestClassCreator().getCurrencyCourse());
+        CurrenciesCourseManager ccm = new CurrenciesCourseManager(new MongoClient(), new Morphia());
+       ccm.getDatastore(null).delete(new TestClassCreator().getCurrencyCourse());
     }
 }
 

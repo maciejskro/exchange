@@ -1,20 +1,19 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.jndi.MongoClientFactory;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-public class  BaseManager {
+public class  BaseManager<T> {
     protected String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     protected MongoClient mongo;
-    protected Morphia morphia;
+    protected final Morphia morphia;
     protected Datastore datastore;
 
-    public BaseManager( MongoClient mc) {
+    public BaseManager( MongoClient mc, Morphia m) {
         this.mongo = mc;
         this.morphia = getMorphia();
-        String packageName = "pl.kayzone.exchange.model.entity";
-        this.morphia.mapPackage(packageName);
     }
 
     public Datastore getDatastore (String conn) {
@@ -35,8 +34,7 @@ public class  BaseManager {
 
     public Morphia getMorphia() {
         final Morphia morphia = new Morphia();
-        String packageName = "pl.kayzone.exchange.model.entity";
-        morphia.mapPackage(packageName);
+                      morphia.mapPackage("pl.kayzone.exchange.model.entity");
         return morphia;
     }
 

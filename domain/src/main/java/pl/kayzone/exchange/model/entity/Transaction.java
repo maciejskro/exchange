@@ -1,13 +1,14 @@
 package pl.kayzone.exchange.model.entity;
 
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity(value = "transactions")
 public class Transaction extends BaseEntity implements Serializable {
@@ -15,8 +16,8 @@ public class Transaction extends BaseEntity implements Serializable {
     @Reference
     private Customers customers;
     private BigDecimal valueTransaction;
-    @Reference
-    private Set<TransactionCurrency> transactionCurrencyList;
+    @Embedded
+    private List<TransactionCurrency> transactionCurrencyList;
     private LocalDateTime transactionTime;
 
     public Customers getCustomers() {
@@ -35,11 +36,11 @@ public class Transaction extends BaseEntity implements Serializable {
         this.valueTransaction = valueTransaction;
     }
 
-    public Set<TransactionCurrency> getTransactionCurrencyList() {
+    public List<TransactionCurrency> getTransactionCurrencyList() {
         return transactionCurrencyList;
     }
 
-    public void setTransactionCurrencyList(Set<TransactionCurrency> transactionCurrencyList) {
+    public void setTransactionCurrencyList(List<TransactionCurrency> transactionCurrencyList) {
         this.transactionCurrencyList = transactionCurrencyList;
     }
 

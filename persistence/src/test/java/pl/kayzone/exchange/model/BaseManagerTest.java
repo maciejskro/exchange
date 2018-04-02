@@ -1,12 +1,14 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
-import pl.kayzone.exchange.model.entity.Currency;
+import pl.kayzone.exchange.model.entity.*;
+import pl.kayzone.exchange.model.helpers.TestClassCreator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -21,28 +23,25 @@ public class BaseManagerTest {
     private Morphia morphia;
     private MongoClient mongoClient;
     private Datastore ds;
+    private TestClassCreator tcc;
     private Currency currency;
 
     @Before
     public void setupClass() {
-        morphia = new Morphia();
+        //morphia.mapPackage("pl.kayzone.exchange.model.entity");
         mongoClient = new MongoClient();
-        baseManager = new BaseManager(mongoClient);
-
+        morphia = new Morphia();
+        baseManager = new BaseManager(mongoClient,morphia);
         ds = morphia.createDatastore(mongoClient,EXCHANGEDBNAME);
-        currency = new Currency();
-        currency.setIdCode("USD");
-        currency.setName("dolar amerykański");
-        currency.setRates(1.0);
-        currency.setTablesType("A");
-        currency.setUrlNbp("http://api.nbp.pl/api/exchangerates/rates/{table}/{code}/");
+        this.tcc  = new TestClassCreator();
+        this.currency = tcc.getCurrency();
     }
 
     @Test
     public void checkIfBuildingRightIfConnectionStringIsNull() {
         String conn = null;
 
-        ds.ensureIndexes();
+        //ds.ensureIndexes();
 
         Datastore ds2 = baseManager.getDatastore(conn);
 
@@ -74,7 +73,7 @@ public class BaseManagerTest {
 
         baseManager.getDatastore(CONNSTR);
 
-        assertThat(baseManager.getMorphia()).isEqualTo(morphia);
+        assertThat(baseManager.getMorphia()).isInstanceOf(Morphia.class);
     }
 
     @Test
@@ -83,8 +82,9 @@ public class BaseManagerTest {
 
         Query<Currency> q =
                 baseManager.getDatastore(null).createQuery(Currency.class);
-        Currency curr = q.field("_id").equal("USD").get();
-        if (curr.getIdCode() != currency.getIdCode()) {
+        //baseManager.getDatastore(conn).save(tcc.getCurrency());
+        Currency curr = q.field("idCode").equal("USD").get();
+        if (curr == null || currency == null || curr.getIdCode() != currency.getIdCode()) {
             baseManager.getDatastore(conn).save(currency);
         }
         assertThat(baseManager.getDatastore(conn).save(currency));
@@ -93,11 +93,16 @@ public class BaseManagerTest {
     public void checkIfCanFindSavedObjectBefore()  {
         Query<Currency> q =
                 baseManager.getDatastore(null).createQuery(Currency.class);
-        Currency curr = q.field("_id").equal("USD").get();
+        baseManager.getDatastore(CONNSTR).save(tcc.getCurrency());
+        Currency curr = q.field("idCode").equal("USD").get();
 
         assertThat(curr.getIdCode()).isEqualTo(currency.getIdCode());
         assertThat(curr.getName()).isEqualTo(currency.getName());
 
+    }
+    @After
+    public void cleanAllCollectionsAfterTest() {
+        baseManager.getDatastore(CONNSTR).delete(tcc.getCurrency());
     }
 
 }

@@ -1,8 +1,8 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
@@ -14,12 +14,12 @@ import java.util.List;
 public class CurrenciesManager extends BaseManager {
 
 
-    private Datastore ds;
+    private final Datastore ds;
     private Query<Currency> query;
 
 
-    CurrenciesManager(MongoClient mc) {
-        super(mc);
+    CurrenciesManager(MongoClient mc,final Morphia m) {
+        super(mc,m);
         this.ds = super.getDatastore("exchangeOffice");
         query = getDatastore(getConnectionString()).createQuery(Currency.class);
     }
@@ -38,7 +38,7 @@ public class CurrenciesManager extends BaseManager {
         return query.asList();
 
     }
-    public Currency find(ObjectId id) {
+    public Currency find(String id) {
         return ds.get(Currency.class, id);
     }
 

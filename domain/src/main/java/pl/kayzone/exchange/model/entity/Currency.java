@@ -1,22 +1,22 @@
 package pl.kayzone.exchange.model.entity;
 
-import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.PrePersist;
+import org.mongodb.morphia.annotations.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 @Entity(value="currency")
+@Indexes({
+        @Index(value = "idCode", fields = @Field("idCode")),
+        @Index(value = "urlNBP", fields = @Field("urlNBP"))
+})
 public class Currency implements Serializable
 {
     @Id
     private String idCode;
     private String name;
+    @Property("urlNBP")
     private String urlNbp;
     private String tablesType;
     private Double rates;
@@ -47,8 +47,6 @@ public class Currency implements Serializable
         this.rates = rates;
         this.lastUpdate = LocalDateTime.now();
     }
-
-
 
     public Currency(String idCode, Double rates) {
         this(idCode, "", "","A",1.0);

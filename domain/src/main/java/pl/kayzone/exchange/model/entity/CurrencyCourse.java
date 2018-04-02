@@ -13,7 +13,7 @@ import java.util.Objects;
 public class CurrencyCourse extends BaseEntity implements Serializable
 {
     @Reference
-    private String idCode;
+    private Currency idCode;
     private LocalDateTime date;
     private LocalDateTime validTo;
     private BigDecimal bid;
@@ -37,7 +37,7 @@ public class CurrencyCourse extends BaseEntity implements Serializable
      * @param date
      * @param bid
      */
-    public CurrencyCourse(String idCode, LocalDateTime date, LocalDateTime validTo, BigDecimal bid, BigDecimal ask, Boolean active) {
+    public CurrencyCourse(Currency idCode, LocalDateTime date, LocalDateTime validTo, BigDecimal bid, BigDecimal ask, Boolean active) {
         super();
         this.idCode = idCode;
         this.date = date;
@@ -47,16 +47,11 @@ public class CurrencyCourse extends BaseEntity implements Serializable
         this.active = active;
     }
 
-    public CurrencyCourse(String code, String code1, BigDecimal bid, BigDecimal ask) {
-        this(code, LocalDateTime.now(),LocalDateTime.now().plusDays(1), bid,ask,true );
-
-    }
-
-    public String getIdCode() {
+    public Currency getIdCode() {
         return idCode;
     }
 
-    public void setIdCode(String idCode) {
+    public void setIdCode(Currency idCode) {
         this.idCode = idCode;
     }
 

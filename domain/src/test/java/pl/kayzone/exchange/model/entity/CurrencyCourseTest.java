@@ -43,8 +43,8 @@ public class CurrencyCourseTest {
 
     @Test
     public void testHashCode() throws Exception {
-        int result = (new TestClassCreator()).getCurrency().hashCode();
-        Assert.assertEquals((new TestClassCreator()).getCurrency().hashCode(), result);
+        int result = currencyCourse.hashCode();
+        Assert.assertNotEquals(0, result);
     }
 }
 

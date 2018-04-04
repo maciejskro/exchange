@@ -79,15 +79,15 @@ public class CurrenciesCourseManagerIntegrationTest {
     }
 
     @Test
-    public void testGetDatastore() throws Exception {
+    public void t5_testGetDatastore() throws Exception {
         Datastore result = currenciesCourseManager.getDatastore("conn");
-        Assert.assertEquals(null, result);
+        assertThat(result).isInstanceOf(Datastore.class);
     }
 
     @Test
-    public void testGetMorphia() throws Exception {
+    public void t4_testGetMorphia() throws Exception {
         Morphia result = currenciesCourseManager.getMorphia();
-        Assert.assertEquals(null, result);
+        assertThat(result).isInstanceOf(Morphia.class);
     }
     @AfterClass
     public static void removeAllCollections() {

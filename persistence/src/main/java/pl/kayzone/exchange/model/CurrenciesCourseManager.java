@@ -7,6 +7,8 @@ import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.kayzone.exchange.model.entity.Currency;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
@@ -16,6 +18,7 @@ public class CurrenciesCourseManager extends BaseManager {
 
     private Datastore ds;
     private Query<CurrencyCourse> query;
+    private static final Logger LOGG = LoggerFactory.getLogger(CurrenciesManager.class);
 
     CurrenciesCourseManager(MongoClient mc, Morphia m) {
         super(mc,m);

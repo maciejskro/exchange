@@ -20,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CurrenciesCourseManagerIntegrationTest {
+public class CurrenciesCourseManagerIT {
     Datastore ds;
     Query<CurrencyCourse> query;
     MongoClient mongo;
@@ -64,6 +64,7 @@ public class CurrenciesCourseManagerIntegrationTest {
     @Test
     public void testCreateOperations() throws Exception {
         UpdateOperations<CurrencyCourse> result = currenciesCourseManager.createOperations();
+
         Assert.assertEquals(null, result);
     }
 

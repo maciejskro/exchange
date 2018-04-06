@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CurrenciesManagerIntegrationTest {
+public class CurrenciesManagerIT {
     Datastore ds;
     Query<Currency> query;
     MongoClient mongo;

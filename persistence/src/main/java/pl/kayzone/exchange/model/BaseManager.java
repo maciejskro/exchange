@@ -1,12 +1,11 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.jndi.MongoClientFactory;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 public class  BaseManager<T> {
-    protected String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
+    protected String connectionString; //= "mongodb://127.0.0.1:27017/exchangeOffice";
     protected MongoClient mongo;
     protected final Morphia morphia;
     protected Datastore datastore;
@@ -42,6 +41,10 @@ public class  BaseManager<T> {
         return this.connectionString;
     }
 
-
-}
+    public void save(T t) {
+        if (t != null) {
+            this.datastore.save(t);
+        }
+    }
+ }
 

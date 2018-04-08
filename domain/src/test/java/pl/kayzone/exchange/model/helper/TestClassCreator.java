@@ -1,4 +1,4 @@
-package pl.kayzone.exchange.model.helpers;
+package pl.kayzone.exchange.model.helper;
 
 import org.bson.types.ObjectId;
 import pl.kayzone.exchange.model.entity.*;
@@ -6,9 +6,7 @@ import pl.kayzone.exchange.model.entity.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TestClassCreator {
 

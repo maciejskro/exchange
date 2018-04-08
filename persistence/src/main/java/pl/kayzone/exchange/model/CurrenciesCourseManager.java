@@ -1,8 +1,8 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -30,10 +30,8 @@ public class CurrenciesCourseManager extends BaseManager {
         return ds;
     }
 
-    public void save(CurrencyCourse cc) {
-        if (cc != null ) {
-            this.ds.save(cc);
-        }
+    public void save(CurrencyCourse cc) throws MongoException {
+           super.save(cc);
     }
 
     public List<CurrencyCourse> findAll() {
@@ -49,7 +47,7 @@ public class CurrenciesCourseManager extends BaseManager {
     public UpdateOperations<CurrencyCourse> createOperations() {
         return ds.createUpdateOperations(CurrencyCourse.class);
     }
-    public UpdateResults update(CurrencyCourse currencyCourse, UpdateOperations<CurrencyCourse> operations) {
+    public UpdateResults update(Query<CurrencyCourse> currencyCourse, UpdateOperations<CurrencyCourse> operations) {
         return ds.update(currencyCourse, operations);
     }
 

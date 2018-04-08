@@ -7,12 +7,19 @@
         <artifactId>exchangeApp</artifactId>
         <version>0.1</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <groupId>pl.kayzone.exchange</groupId>
     <artifactId>domain</artifactId>
 
-    <dependencies>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <project.build.sourceDirectory>src/main</project.build.sourceDirectory>
+        <project.build.testSourceDirectory>src/test</project.build.testSourceDirectory>
+    </properties>
+
+    <dependencies>
 
     </dependencies>
 

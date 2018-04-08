@@ -2,7 +2,7 @@ package pl.kayzone.exchange.model.entity;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pl.kayzone.exchange.model.entity.helpers.TestClassCreator;
+import pl.kayzone.exchange.model.helper.TestClassCreator;
 
 public class CustomersTest {
 

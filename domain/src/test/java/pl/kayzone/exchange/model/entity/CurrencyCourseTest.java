@@ -6,11 +6,9 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.kayzone.exchange.model.entity.helpers.TestClassCreator;
+import pl.kayzone.exchange.model.helper.TestClassCreator;
 
 import java.math.BigDecimal;
-
-import static org.mockito.Mockito.*;
 
 public class CurrencyCourseTest {
     //Field id of type ObjectId - was not mocked since Mockito doesn't mock a Final class when 'mock-maker-inline' option is not set

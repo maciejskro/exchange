@@ -17,8 +17,7 @@ import pl.kayzone.exchange.model.entity.Currency;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
-
+//@RunWith(JUnitParamsRunner.class)
 public class CurrenciesManagerTest {
     @Mock
     Datastore ds;
@@ -36,6 +35,7 @@ public class CurrenciesManagerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        //currenciesManager = new CurrenciesManager(mongo,morphia);
     }
 
     @Test

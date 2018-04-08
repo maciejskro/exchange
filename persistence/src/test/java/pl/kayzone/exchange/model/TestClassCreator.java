@@ -1,4 +1,4 @@
-package pl.kayzone.exchange.model.entity.helpers;
+package pl.kayzone.exchange.model;
 
 import org.bson.types.ObjectId;
 import pl.kayzone.exchange.model.entity.*;
@@ -17,9 +17,11 @@ public class TestClassCreator {
     TransactionCurrency transactionCurrency;
 
     public TestClassCreator() {
-
+        /*this.currency = new Currency();
+        this.currencyCourse = new CurrencyCourse();
+        this.customers = new Customers();
         this.transaction = new Transaction();
-        this.transactionCurrency = new TransactionCurrency();
+        this.transactionCurrency = new TransactionCurrency();*/
     }
 
     public Currency getCurrency() {

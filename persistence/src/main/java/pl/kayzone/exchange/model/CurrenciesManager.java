@@ -31,9 +31,7 @@ public class CurrenciesManager extends BaseManager {
     }
 
     public void save(Currency currency) {
-        if (currency != null) {
-            ds.save(currency);
-        }
+            super.save(currency);
     }
 
     public List<Currency> findAll() {

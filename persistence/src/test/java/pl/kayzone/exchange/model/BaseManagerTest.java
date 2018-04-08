@@ -7,8 +7,7 @@ import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
-import pl.kayzone.exchange.model.entity.*;
-import pl.kayzone.exchange.model.helpers.TestClassCreator;
+import pl.kayzone.exchange.model.entity.Currency;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -45,7 +44,7 @@ public class BaseManagerTest {
 
         Datastore ds2 = baseManager.getDatastore(conn);
 
-        assertThat(baseManager.getDatastore(conn)).isInstanceOf(Datastore.class);
+        assertThat(baseManager.getDatastore(conn) ).isInstanceOf(Datastore.class);
         assertThat(ds2.getDB().getName()).isEqualTo(EXCHANGEDBNAME);
     }
 

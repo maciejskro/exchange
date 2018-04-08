@@ -3,25 +3,19 @@ package pl.kayzone.exchange.model;
 import com.mongodb.MongoClient;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 import pl.kayzone.exchange.model.entity.Currency;
-import pl.kayzone.exchange.model.helpers.TestClassCreator;
 
-import javax.xml.crypto.Data;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.mockito.Mockito.*;
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CurrenciesManagerIT {

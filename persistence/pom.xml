@@ -9,14 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>pl.kayzone.exchange</groupId>
     <artifactId>persistence</artifactId>
+
+    <properties>
+        <project.build.sourceDirectory>src/main</project.build.sourceDirectory>
+        <project.build.testSourceDirectory>src/test</project.build.testSourceDirectory>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>pl.kayzone.exchange</groupId>
             <artifactId>domain</artifactId>
             <version>0.1</version>
-            <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
 

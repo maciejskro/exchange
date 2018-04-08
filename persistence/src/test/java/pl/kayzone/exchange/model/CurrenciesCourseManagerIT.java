@@ -8,13 +8,8 @@ import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
-import pl.kayzone.exchange.model.entity.Currency;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
-import pl.kayzone.exchange.model.helpers.TestClassCreator;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,56 +32,66 @@ public class CurrenciesCourseManagerIT {
         currenciesCourseManager = new CurrenciesCourseManager(mongo,morphia);
         tcc = new TestClassCreator();
         cm  = new CurrenciesManager(mongo,morphia);
+        datastore = cm.getDatastore("mongodb://127.0.0.1:27017/exchangeOffice");
         cm.save(tcc.getCurrency());
     }
 
     @Test
-    public void t1_testSave() throws Exception {
+    public void t01_testSave() throws Exception {
         CurrencyCourse ccm = tcc.getCurrencyCourse();
         currenciesCourseManager.save(ccm);
     }
 
     @Test
-    public void t2_testFindAll() throws Exception {
+    public void t02_testFindAll() throws Exception {
         List<CurrencyCourse> result = currenciesCourseManager.findAll();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
-    public void t3_testFindActualCourse() throws Exception {
+    public void t03_testFindActualCourse() throws Exception {
         CurrencyCourse result = currenciesCourseManager.findActualCourse("USD");
         System.out.println(result.getValidTo());
       //  assertThat(result.getIdCode()).isEqualTo(tcc.getCurrency());
         assertThat(result.getActive()).isEqualTo(true);
     }
 
-    @Test
-    public void testCreateOperations() throws Exception {
-        UpdateOperations<CurrencyCourse> result = currenciesCourseManager.createOperations();
 
-        Assert.assertEquals(null, result);
+    @Test
+    public void t10_testUpdate() throws Exception {
+
+        currenciesCourseManager.save(tcc.getCurrencyCourse());
+
+        List<CurrencyCourse> lista = currenciesCourseManager.getDs().createQuery(CurrencyCourse.class).asList();
+        for (CurrencyCourse cc : lista) {
+            System.out.println(cc.toString());
+        }
+        Query<CurrencyCourse> query = currenciesCourseManager.getDatastore(null).createQuery(CurrencyCourse.class)
+                                .field("_id").equal(lista.get(0).getId());
+
+        UpdateOperations<CurrencyCourse> update = currenciesCourseManager.createOperations().inc("bid").inc("ask");
+        UpdateResults result = currenciesCourseManager.update(query, update);
+
+        Assert.assertEquals(result.getUpdatedCount(), 1);
     }
 
     @Test
-    public void testUpdate() throws Exception {
-        UpdateResults result = currenciesCourseManager.update(new CurrencyCourse(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), new BigDecimal(0), new BigDecimal(0), Boolean.TRUE), null);
-        Assert.assertEquals(null, result);
+    public void t15_testRemove() throws Exception {
+        Query<CurrencyCourse> query = currenciesCourseManager.getDs().find(CurrencyCourse.class);
+        currenciesCourseManager.remove(query.get());
+        currenciesCourseManager.getDs();
+        assertThat(query.asList()).hasOnlyElementsOfType(CurrencyCourse.class);
     }
 
     @Test
-    public void testRemove() throws Exception {
-  //      currenciesCourseManager.remove(new CurrencyCourse(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), LocalDateTime.of(2018, Month.APRIL, 2, 23, 8, 19), new BigDecimal(0), new BigDecimal(0), Boolean.TRUE));
-    }
-
-    @Test
-    public void t5_testGetDatastore() throws Exception {
+    public void t05_testGetDatastore() throws Exception {
         Datastore result = currenciesCourseManager.getDatastore("conn");
         assertThat(result).isInstanceOf(Datastore.class);
     }
 
     @Test
-    public void t4_testGetMorphia() throws Exception {
+    public void t04_testGetMorphia() throws Exception {
         Morphia result = currenciesCourseManager.getMorphia();
         assertThat(result).isInstanceOf(Morphia.class);
     }
@@ -95,7 +100,7 @@ public class CurrenciesCourseManagerIT {
         //CurrenciesManager cm = new CurrenciesManager(new MongoClient(),new Morphia());
        // cm.getDs().delete(new TestClassCreator().getCurrency());
         CurrenciesCourseManager ccm = new CurrenciesCourseManager(new MongoClient(), new Morphia());
-       ccm.getDatastore(null).delete(new TestClassCreator().getCurrencyCourse());
+       ccm.getDatastore(null).delete(ccm.getDs().createQuery(CurrencyCourse.class));
     }
 }
 

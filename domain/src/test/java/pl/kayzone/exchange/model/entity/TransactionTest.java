@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import pl.kayzone.exchange.model.helper.TestClassCreator;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,6 +62,17 @@ public class TransactionTest {
         assertThat(t).isNotNull();
         assertThat(t.getTransactionCurrencyList()).hasOnlyElementsOfTypes(TransactionCurrency.class);
         assertThat(t.getTransactionCurrencyList().size()).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    public void testValueTransactionObject() {
+        Transaction t = tcc.getTransaction();
+
+        assertThat(t.getCustomers()).isEqualToComparingOnlyGivenFields(tcc.getCustomers(),
+                "name","firstName","surname","address","city","country","zip","nip" );
+        assertThat(t.getTransactionTime()).isAfter(LocalDateTime.now().minusHours(1));
+        assertThat(t.getTransactionCurrencyList().size()).isGreaterThanOrEqualTo(1);
+        assertThat(t.getValueTransaction()).isEqualTo("344.000");
     }
 }
 

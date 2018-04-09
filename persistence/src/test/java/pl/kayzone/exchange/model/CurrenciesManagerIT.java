@@ -34,7 +34,7 @@ public class CurrenciesManagerIT {
         this.tcc = new TestClassCreator();
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t1_testSave() throws Exception {
         currenciesManager.save(tcc.getCurrency());
         assertThatCode(() -> {
@@ -42,16 +42,15 @@ public class CurrenciesManagerIT {
         }).doesNotThrowAnyException();
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t2_testFindAll() throws Exception {
         List<Currency> result = currenciesManager.findAll();
         assertThat(result).isNotNull();
         if (result.size() >1 )
             assertThat(Arrays.<Currency>asList(tcc.getCurrency()).get(0).getIdCode()).isEqualTo(result.get(0).getIdCode());
-       // Assert.assertEquals(Arrays.<Currency>asList(tcc.getCurrency()), result);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t3_testFind() throws Exception {
         Currency result = currenciesManager.find(tcc.getCurrency().getIdCode());
         if (result == null) {
@@ -61,13 +60,13 @@ public class CurrenciesManagerIT {
                 "idCode","name","urlNbp","tablesType");
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t4_testCreateOperations() throws Exception {
         UpdateOperations<Currency> result = currenciesManager.createOperations();
         assertThat(result).isInstanceOf(UpdateOperations.class);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t5_testUpdate() throws Exception {
 
         UpdateResults result = currenciesManager.update(
@@ -76,18 +75,18 @@ public class CurrenciesManagerIT {
         assertThat(result.getUpdatedCount()).isGreaterThanOrEqualTo(1);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t8_testRemove() throws Exception {
         currenciesManager.remove(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)));
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t6_testGetDatastore() throws Exception {
         Datastore result = currenciesManager.getDatastore("conn");
         assertThat(result).isInstanceOf(Datastore.class);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t7_testGetMorphia() throws Exception {
         Morphia result = currenciesManager.getMorphia();
     }
@@ -98,5 +97,3 @@ public class CurrenciesManagerIT {
         cm.getDs().delete(new TestClassCreator().getCurrency());
     }
 }
-
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

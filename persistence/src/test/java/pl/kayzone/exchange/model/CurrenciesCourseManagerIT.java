@@ -36,20 +36,20 @@ public class CurrenciesCourseManagerIT {
         cm.save(tcc.getCurrency());
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t01_testSave() throws Exception {
         CurrencyCourse ccm = tcc.getCurrencyCourse();
         currenciesCourseManager.save(ccm);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t02_testFindAll() throws Exception {
         List<CurrencyCourse> result = currenciesCourseManager.findAll();
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThanOrEqualTo(1);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t03_testFindActualCourse() throws Exception {
         CurrencyCourse result = currenciesCourseManager.findActualCourse("USD");
         System.out.println(result.getValidTo());
@@ -58,15 +58,13 @@ public class CurrenciesCourseManagerIT {
     }
 
 
-    @Test
+    @Test(timeout = 300)
     public void t10_testUpdate() throws Exception {
 
         currenciesCourseManager.save(tcc.getCurrencyCourse());
 
         List<CurrencyCourse> lista = currenciesCourseManager.getDs().createQuery(CurrencyCourse.class).asList();
-        for (CurrencyCourse cc : lista) {
-            System.out.println(cc.toString());
-        }
+
         Query<CurrencyCourse> query = currenciesCourseManager.getDatastore(null).createQuery(CurrencyCourse.class)
                                 .field("_id").equal(lista.get(0).getId());
 
@@ -77,7 +75,7 @@ public class CurrenciesCourseManagerIT {
 
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t15_testRemove() throws Exception {
         Query<CurrencyCourse> query = currenciesCourseManager.getDs().find(CurrencyCourse.class);
         currenciesCourseManager.remove(query.get());
@@ -85,13 +83,13 @@ public class CurrenciesCourseManagerIT {
         assertThat(query.asList()).hasOnlyElementsOfType(CurrencyCourse.class);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t05_testGetDatastore() throws Exception {
         Datastore result = currenciesCourseManager.getDatastore("conn");
         assertThat(result).isInstanceOf(Datastore.class);
     }
 
-    @Test
+    @Test(timeout = 300)
     public void t04_testGetMorphia() throws Exception {
         Morphia result = currenciesCourseManager.getMorphia();
         assertThat(result).isInstanceOf(Morphia.class);
@@ -105,4 +103,3 @@ public class CurrenciesCourseManagerIT {
     }
 }
 
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme

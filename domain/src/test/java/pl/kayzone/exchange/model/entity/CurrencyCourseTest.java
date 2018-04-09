@@ -70,4 +70,14 @@ public class CurrencyCourseTest {
         assertThat(cc).isNotNull();
         assertThat(result).isEqualTo(false);
     }
+
+    @Test
+    public void testStrictNBPlink() {
+        CurrencyCourse cc = tcc.getCurrencyCourse();
+
+        String result = cc.getStrictNBPuriAddress();
+
+        assertThat(result).isNotEmpty();
+        assertThat(result).isEqualTo("http://api.nbp.pl/api/exchangerates/rates/A/USD/");
+    }
 }

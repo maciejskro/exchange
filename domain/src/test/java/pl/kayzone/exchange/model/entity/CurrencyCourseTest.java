@@ -1,5 +1,6 @@
 package pl.kayzone.exchange.model.entity;
 
+import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,9 @@ import org.mockito.MockitoAnnotations;
 import pl.kayzone.exchange.model.helper.TestClassCreator;
 
 import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class CurrencyCourseTest {
     //Field id of type ObjectId - was not mocked since Mockito doesn't mock a Final class when 'mock-maker-inline' option is not set
@@ -20,10 +24,12 @@ public class CurrencyCourseTest {
     BigDecimal ask;
     @InjectMocks
     CurrencyCourse currencyCourse;
+    TestClassCreator tcc;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        tcc = new TestClassCreator();
     }
 
     @Test
@@ -44,6 +50,24 @@ public class CurrencyCourseTest {
         int result = currencyCourse.hashCode();
         Assert.assertNotEquals(0, result);
     }
-}
 
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
+    @Test
+    public  void testLikeNull() {
+        CurrencyCourse cc = new CurrencyCourse();
+        cc.setId(new ObjectId());
+        boolean result = cc.isLikeNull();
+
+        assertThat(cc).isNotNull();
+        assertThat(result).isEqualTo(true);
+    }
+
+    @Test
+    public void testLikeNullNotNull() {
+        CurrencyCourse cc = tcc.getCurrencyCourse();
+
+        boolean result = cc.isLikeNull();
+
+        assertThat(cc).isNotNull();
+        assertThat(result).isEqualTo(false);
+    }
+}

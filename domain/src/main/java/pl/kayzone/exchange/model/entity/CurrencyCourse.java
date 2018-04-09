@@ -136,8 +136,7 @@ public class CurrencyCourse extends BaseEntity implements Serializable
         return Objects.hash(getIdCode(), getDate(), getValidTo(), getBid(), getAsk(), getActive());
     }
     public boolean isLikeNull() {
-        if (  getAsk().compareTo(BigDecimal.ZERO) == 0 &&
-              getBid().compareTo(BigDecimal.ZERO) == 0 &&
+        if (  getAsk() == null && getBid() == null &&
                 getDate()==null && getValidTo() ==null  && getActive() ==null  ) {
             return true;
         }

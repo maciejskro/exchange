@@ -9,6 +9,7 @@
     <artifactId>exchangeApp</artifactId>
     <packaging>pom</packaging>
     <version>0.1</version>
+    
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>

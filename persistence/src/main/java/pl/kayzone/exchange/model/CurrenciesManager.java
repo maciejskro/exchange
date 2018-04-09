@@ -23,7 +23,7 @@ public class CurrenciesManager extends BaseManager {
     CurrenciesManager(MongoClient mc,final Morphia m) {
         super(mc,m);
         this.ds = super.getDatastore("exchangeOffice");
-        query = getDatastore(getConnectionString()).createQuery(Currency.class);
+        query = super.getDatastore(getConnectionString()).createQuery(Currency.class);
     }
 
     public Datastore getDs() {
@@ -31,7 +31,9 @@ public class CurrenciesManager extends BaseManager {
     }
 
     public void save(Currency currency) {
+        if (currency != null ) {
             super.save(currency);
+        }
     }
 
     public List<Currency> findAll() {
@@ -52,4 +54,5 @@ public class CurrenciesManager extends BaseManager {
     public void remove (Currency curr) {
         ds.delete(curr);
     }
+
 }

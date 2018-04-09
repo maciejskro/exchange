@@ -74,6 +74,7 @@ public class CurrenciesCourseManagerIT {
         UpdateResults result = currenciesCourseManager.update(query, update);
 
         Assert.assertEquals(result.getUpdatedCount(), 1);
+
     }
 
     @Test

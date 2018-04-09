@@ -23,4 +23,8 @@ public class TransactionManager extends BaseManager {
         super.save(trans);
     }
 
+    public Datastore getDs() {
+        return this.ds;
+    }
+
 }

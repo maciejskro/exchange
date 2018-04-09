@@ -106,7 +106,7 @@ public class Currency implements Serializable
         if (this == o) return true;
         if (!(o instanceof Currency)) return false;
         Currency currency = (Currency) o;
-        return Objects.equals(getIdCode(), currency.getIdCode()) &&
+        return //Objects.equals(getIdCode(), currency.getIdCode()) &&
                 Objects.equals(getName(), currency.getName()) &&
                 Objects.equals(getUrlNbp(), currency.getUrlNbp()) &&
                 Objects.equals(getTablesType(), currency.getTablesType()) &&
@@ -129,6 +129,15 @@ public class Currency implements Serializable
                 ", tablesType='" + tablesType + '\'' +
                 ", rates=" + rates +
                 '}';
+    }
+    public boolean isLikeNull() {
+        if (getName().equals(null) &&
+                getUrlNbp().equals(null) &&
+                getRates().equals(null) &&
+                getTablesType().equals(null) ) {
+            return true;
+        }
+        else return false;
     }
 
 }

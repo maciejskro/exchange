@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.kayzone.exchange.model.helper.TestClassCreator;
+import pl.kayzone.exchange.model.TestClassCreator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

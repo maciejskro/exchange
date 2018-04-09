@@ -2,7 +2,7 @@ package pl.kayzone.exchange.model.entity;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pl.kayzone.exchange.model.helper.TestClassCreator;
+import pl.kayzone.exchange.model.TestClassCreator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

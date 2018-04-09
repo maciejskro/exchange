@@ -42,6 +42,7 @@ public class TestClassCreator {
              currencyCourse.setBid(BigDecimal.valueOf(3.54));
              currencyCourse.setDate(LocalDateTime.now());
              currencyCourse.setValidTo(LocalDateTime.now().plusDays(1L));
+             currencyCourse.setVersion(1L);
              return currencyCourse;
     }
     public Customers getCustomers() {
@@ -55,6 +56,7 @@ public class TestClassCreator {
              customers.setZip("43-334");
              customers.setCountry("Poland");
              customers.setNip("883-220-90-33");
+             customers.setVersion(1L);
         return customers;
     }
 
@@ -73,6 +75,7 @@ public class TestClassCreator {
              transaction.setCustomers(getCustomers());
              transaction.setTransactionCurrencyList(items);
              transaction.setTransactionTime(LocalDateTime.now());
+             transaction.setVersion(1L);
              BigDecimal value  = getTransactionCurrency().getQuantity().multiply(getTransactionCurrency().getCourse());
              transaction.setValueTransaction(value);
              return transaction;

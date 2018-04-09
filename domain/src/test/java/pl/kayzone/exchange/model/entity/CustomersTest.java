@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import pl.kayzone.exchange.model.helper.TestClassCreator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class CustomersTest {
 
     private TestClassCreator testClassCreator = new TestClassCreator();
@@ -29,6 +31,11 @@ public class CustomersTest {
         Assert.assertEquals("Customers{name='Kowalski', firstName='Jan', surname='Kowalski'," +
                 " address='ul.Blotna 22', zip='43-334', city='Wrzeszcz', country='Poland', nip='883-220-90-33'}", result);
     }
-}
+    @Test
+    public void testLongVersion() {
+        Customers cust = testClassCreator.getCustomers();
 
-//Generated with love by TestMe :) Please report issues and submit feature requests at: http://weirddev.com/forum#!/testme
+        assertThat(cust.getVersion()).isNotNull();
+        assertThat(cust.getVersion()).isGreaterThan(0);
+    }
+}

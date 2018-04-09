@@ -53,4 +53,5 @@ public class TransactionCurrency  {
 
         return Objects.hash(getCurrencyCourse(), getCourse(), getQuantity());
     }
+
 }

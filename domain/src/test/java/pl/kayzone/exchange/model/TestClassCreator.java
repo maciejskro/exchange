@@ -1,6 +1,7 @@
 package pl.kayzone.exchange.model;
 
 import org.bson.types.ObjectId;
+import org.junit.Ignore;
 import pl.kayzone.exchange.model.entity.*;
 
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Ignore
 public class TestClassCreator {
 
     Currency currency;

@@ -22,7 +22,7 @@ public class BaseManagerTest {
     private Morphia morphia;
     private MongoClient mongoClient;
     private Datastore ds;
-    private TestClassCreator tcc;
+    public TestClassCreator tcc;
     private Currency currency;
 
     @Before

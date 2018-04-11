@@ -2,6 +2,7 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.junit.runners.MethodSorters;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -26,6 +27,9 @@ public class CurrenciesManagerIT {
     Datastore datastore;
     CurrenciesManager currenciesManager;
     TestClassCreator tcc;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
 
     @Before
     public void setUp() {
@@ -40,6 +44,11 @@ public class CurrenciesManagerIT {
         assertThatCode(() -> {
             currenciesManager.save(tcc.getCurrency());
         }).doesNotThrowAnyException();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void t1_testSaveWithNull() {
+        currenciesManager.save(null);
     }
 
     @Test(timeout = 300)

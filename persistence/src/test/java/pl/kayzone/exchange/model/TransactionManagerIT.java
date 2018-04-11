@@ -2,7 +2,9 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
@@ -20,6 +22,8 @@ public class TransactionManagerIT {
     Datastore datastore;
     TransactionManager transactionManager;
     TestClassCreator tcc;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -31,11 +35,16 @@ public class TransactionManagerIT {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void t01_testSave() throws Exception {
         Transaction t = tcc.getTransaction();
         transactionManager.save(t);
-
     }
+
+    @Test(expected = NullPointerException.class)
+    public void t02_testSaveWithNull() {
+        transactionManager.save(null);
+    }
+
 
     @Test
     public void testGetDatastore() throws Exception {

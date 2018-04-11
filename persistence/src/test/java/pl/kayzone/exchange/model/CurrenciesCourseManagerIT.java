@@ -2,6 +2,7 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.junit.runners.MethodSorters;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -25,6 +26,9 @@ public class CurrenciesCourseManagerIT {
     TestClassCreator tcc;
     CurrenciesManager cm;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Before
     public void setUp() {
         mongo = new MongoClient();
@@ -42,7 +46,7 @@ public class CurrenciesCourseManagerIT {
         cc.setIdCode(cm.find("USD"));
         currenciesCourseManager.save(cc);
     }
-    @Test
+    @Test(expected = NullPointerException.class)
     public void t02_testAnNullObject() {
         CurrencyCourse cc = null;
         currenciesCourseManager.save(cc);

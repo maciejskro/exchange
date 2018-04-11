@@ -22,7 +22,7 @@ public class CurrenciesManager extends BaseManager {
 
     CurrenciesManager(MongoClient mc,final Morphia m) {
         super(mc,m);
-        this.ds = super.getDatastore("exchangeOffice");
+        ds = super.getDatastore("exchangeOffice");
         query = super.getDatastore(getConnectionString()).createQuery(Currency.class);
     }
 

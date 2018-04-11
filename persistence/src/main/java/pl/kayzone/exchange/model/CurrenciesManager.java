@@ -32,8 +32,9 @@ public class CurrenciesManager extends BaseManager {
 
     public void save(Currency currency) {
         if (currency != null ) {
-            super.save(currency);
-        }
+            getDs().save(currency);
+        } else
+            throw new NullPointerException();
     }
 
     public List<Currency> findAll() {

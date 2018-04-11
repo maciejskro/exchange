@@ -20,7 +20,10 @@ public class TransactionManager extends BaseManager {
         query = super.getDatastore(getConnectionString()).createQuery(Transaction.class);
     }
     public void save(Transaction trans) {
-        super.save(trans);
+        if (trans != null) {
+            getDs().save(trans);
+        } else
+            throw new NullPointerException();
     }
 
     public Datastore getDs() {

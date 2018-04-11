@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CurrenciesCourseManager extends BaseManager {
 
-    private Datastore ds;
+    private final Datastore ds;
     private Query<CurrencyCourse> query;
     private static final Logger LOGG = LoggerFactory.getLogger(CurrenciesManager.class);
 
@@ -31,7 +31,10 @@ public class CurrenciesCourseManager extends BaseManager {
     }
 
     public void save(CurrencyCourse cc) throws MongoException {
-           super.save(cc);
+        if (cc != null) {
+            getDs().save(cc);
+        } else
+            throw  new NullPointerException();
     }
 
     public List<CurrencyCourse> findAll() {

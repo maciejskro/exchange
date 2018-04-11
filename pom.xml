@@ -3,9 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>
-        pl.kayzone.exchange
-    </groupId>
+    <groupId>pl.kayzone.exchange</groupId>
     <artifactId>exchangeApp</artifactId>
     <packaging>pom</packaging>
     <version>0.1</version>
@@ -20,6 +18,15 @@
             </resource>
         </resources>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.21.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
 
             <plugin>
@@ -41,11 +48,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.21.0</version>
                 <configuration>
-                    <excludes>
-                        <exclude>
-                            **\*IT.java
-                        </exclude>
-                    </excludes>
+                    <parallel>disable</parallel>
                 </configuration>
             </plugin>
 
@@ -74,6 +77,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin></plugins>
     </build>
     <modules>

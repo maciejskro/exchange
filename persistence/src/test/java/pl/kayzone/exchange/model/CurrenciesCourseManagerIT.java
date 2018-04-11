@@ -36,11 +36,19 @@ public class CurrenciesCourseManagerIT {
         cm.save(tcc.getCurrency());
     }
 
-    @Test(timeout = 300)
+    @Test
     public void t01_testSave() throws Exception {
-        CurrencyCourse ccm = tcc.getCurrencyCourse();
-        currenciesCourseManager.save(ccm);
+        CurrencyCourse cc = tcc.getCurrencyCourse();
+        cc.setIdCode(cm.find("USD"));
+        currenciesCourseManager.save(cc);
     }
+    @Test
+    public void t02_testAnNullObject() {
+        CurrencyCourse cc = null;
+        currenciesCourseManager.save(cc);
+
+    }
+
 
     @Test(timeout = 300)
     public void t02_testFindAll() throws Exception {

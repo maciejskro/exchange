@@ -41,11 +41,5 @@ public class  BaseManager<T> {
 
         return this.connectionString;
     }
-
-    public void save(T t) {
-        if (t != null) {
-            this.datastore.save(t);
-        }
-    }
  }
 

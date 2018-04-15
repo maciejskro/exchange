@@ -49,22 +49,25 @@ public class CurrenciesManagerIT {
     @Test(expected = NullPointerException.class)
     public void t1_testSaveWithNull() {
         currenciesManager.save(null);
+        assertThatCode( () -> {
+            currenciesManager.save(null);
+        }).hasCauseExactlyInstanceOf(NullPointerException.class);
     }
 
     @Test(timeout = 300)
     public void t2_testFindAll() throws Exception {
         List<Currency> result = currenciesManager.findAll();
         assertThat(result).isNotNull();
-        if (result.size() >1 )
-            assertThat(Arrays.<Currency>asList(tcc.getCurrency()).get(0).getIdCode()).isEqualTo(result.get(0).getIdCode());
+        assertThat(result.size()).isGreaterThanOrEqualTo(1);
+        assertThat(Arrays.<Currency>asList(tcc.getCurrency()).get(0).getIdCode()).isEqualTo(result.get(0).getIdCode());
     }
 
     @Test(timeout = 300)
     public void t3_testFind() throws Exception {
         Currency result = currenciesManager.find(tcc.getCurrency().getIdCode());
-        if (result == null) {
-            throw  new Exception();
-        }
+        assertThatCode(() -> {
+            currenciesManager.find(tcc.getCurrency().getIdCode());
+        }).doesNotThrowAnyException();
         assertThat(result).isEqualToComparingOnlyGivenFields(tcc.getCurrency(),
                 "idCode","name","urlNbp","tablesType");
     }
@@ -87,6 +90,7 @@ public class CurrenciesManagerIT {
     @Test(timeout = 300)
     public void t8_testRemove() throws Exception {
         currenciesManager.remove(new Currency("idCode", "name", "urlNbp", "tablesType", Double.valueOf(0)));
+
     }
 
     @Test(timeout = 300)
@@ -95,13 +99,15 @@ public class CurrenciesManagerIT {
         assertThat(result).isInstanceOf(Datastore.class);
     }
 
-    @Test(timeout = 300)
+    @Test
     public void t7_testGetMorphia() throws Exception {
         Morphia result = currenciesManager.getMorphia();
+
+        assertThat(result).isInstanceOf(Morphia.class);
     }
 
     @AfterClass
-    public static void removeAllTestetObject() {
+    public static void cleanAllDatabasesCollections() {
         CurrenciesManager cm = new CurrenciesManager(new MongoClient(),new Morphia());
         cm.getDs().delete(new TestClassCreator().getCurrency());
     }

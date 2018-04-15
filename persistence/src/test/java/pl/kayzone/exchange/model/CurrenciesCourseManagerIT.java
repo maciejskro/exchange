@@ -33,9 +33,9 @@ public class CurrenciesCourseManagerIT {
     public void setUp() {
         mongo = new MongoClient();
         morphia = new Morphia();
-        currenciesCourseManager = new CurrenciesCourseManager(mongo,morphia);
+        currenciesCourseManager = new CurrenciesCourseManager(mongo, morphia);
         tcc = new TestClassCreator();
-        cm  = new CurrenciesManager(mongo,morphia);
+        cm = new CurrenciesManager(mongo, morphia);
         datastore = cm.getDatastore("mongodb://127.0.0.1:27017/exchangeOffice");
         cm.save(tcc.getCurrency());
     }
@@ -45,18 +45,23 @@ public class CurrenciesCourseManagerIT {
         CurrencyCourse cc = tcc.getCurrencyCourse();
         cc.setIdCode(cm.find("USD"));
         currenciesCourseManager.save(cc);
+        CurrencyCourse result = currenciesCourseManager.findActualCourse(cc.getIdCode().getIdCode());
+
+        assertThat(result).isInstanceOf(CurrencyCourse.class);
+        assertThat(result).isEqualTo(cc);
     }
+
     @Test(expected = NullPointerException.class)
     public void t02_testAnNullObject() {
         CurrencyCourse cc = null;
         currenciesCourseManager.save(cc);
-
+        // expacted exception
     }
-
 
     @Test(timeout = 300)
     public void t02_testFindAll() throws Exception {
         List<CurrencyCourse> result = currenciesCourseManager.findAll();
+
         assertThat(result).isNotNull();
         assertThat(result.size()).isGreaterThanOrEqualTo(1);
     }
@@ -64,11 +69,10 @@ public class CurrenciesCourseManagerIT {
     @Test(timeout = 300)
     public void t03_testFindActualCourse() throws Exception {
         CurrencyCourse result = currenciesCourseManager.findActualCourse("USD");
-        System.out.println(result.getValidTo());
-      //  assertThat(result.getIdCode()).isEqualTo(tcc.getCurrency());
         assertThat(result.getActive()).isEqualTo(true);
+        assertThat(result).isEqualToComparingOnlyGivenFields(tcc.getCurrencyCourse()
+                , "idCode.idCode", "idCode.name", "bid", "ask", "active");
     }
-
 
     @Test(timeout = 300)
     public void t10_testUpdate() throws Exception {
@@ -78,7 +82,7 @@ public class CurrenciesCourseManagerIT {
         List<CurrencyCourse> lista = currenciesCourseManager.getDs().createQuery(CurrencyCourse.class).asList();
 
         Query<CurrencyCourse> query = currenciesCourseManager.getDatastore(null).createQuery(CurrencyCourse.class)
-                                .field("_id").equal(lista.get(0).getId());
+                .field("_id").equal(lista.get(0).getId());
 
         UpdateOperations<CurrencyCourse> update = currenciesCourseManager.createOperations().inc("bid").inc("ask");
         UpdateResults result = currenciesCourseManager.update(query, update);
@@ -106,12 +110,11 @@ public class CurrenciesCourseManagerIT {
         Morphia result = currenciesCourseManager.getMorphia();
         assertThat(result).isInstanceOf(Morphia.class);
     }
+
     @AfterClass
-    public static void removeAllCollections() {
-        //CurrenciesManager cm = new CurrenciesManager(new MongoClient(),new Morphia());
-       // cm.getDs().delete(new TestClassCreator().getCurrency());
+    public static void cleanAllDatabasesCollections() {
         CurrenciesCourseManager ccm = new CurrenciesCourseManager(new MongoClient(), new Morphia());
-       ccm.getDatastore(null).delete(ccm.getDs().createQuery(CurrencyCourse.class));
+        ccm.getDatastore(null).delete(ccm.getDs().createQuery(CurrencyCourse.class));
     }
 }
 

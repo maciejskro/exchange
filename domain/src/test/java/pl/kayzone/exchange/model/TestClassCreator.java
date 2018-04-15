@@ -72,12 +72,13 @@ public class TestClassCreator {
     public Transaction getTransaction() {
         List<TransactionCurrency> items = new ArrayList<>();
          items.add(getTransactionCurrency());
+        // items.add(getTransactionCurrency());
         this.transaction = new Transaction();
              transaction.setId(new ObjectId());
              transaction.setCustomers(getCustomers());
              transaction.setTransactionCurrencyList(items);
              transaction.setTransactionTime(LocalDateTime.now());
-             BigDecimal value  = getTransactionCurrency().getQuantity().multiply(getTransactionCurrency().getCourse());
+             BigDecimal value  = items.get(0).getQuantity().multiply(items.get(0).getCourse());
              transaction.setValueTransaction(value);
              return transaction;
     }

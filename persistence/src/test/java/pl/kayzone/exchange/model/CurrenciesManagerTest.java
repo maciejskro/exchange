@@ -87,6 +87,7 @@ public class CurrenciesManagerTest {
 
     @Test
     public void testCreateOperations() throws Exception {
+
         UpdateOperations<Currency> result = currenciesManager.createOperations();
         Assert.assertEquals(null, result);
     }

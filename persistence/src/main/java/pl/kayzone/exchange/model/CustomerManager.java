@@ -20,4 +20,7 @@ public class CustomerManager extends BaseManager<Customers> {
         this.query = getDatastore(getConnectionString()).createQuery(Customers.class);
     }
 
+    public Datastore getDs() {
+        return this.ds;
+    }
 }

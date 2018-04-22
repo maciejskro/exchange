@@ -19,6 +19,7 @@ public class Transaction extends BaseEntity implements Serializable {
     @Embedded
     private List<TransactionCurrency> transactionCurrencyList;
     private LocalDateTime transactionTime;
+    private String description;
 
     public Customers getCustomers() {
         return customers;
@@ -50,6 +51,25 @@ public class Transaction extends BaseEntity implements Serializable {
 
     public void setTransactionTime(LocalDateTime transactionTime) {
         this.transactionTime = transactionTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "customers=" + customers.toString() +
+                ", valueTransaction=" + valueTransaction +
+                ", transactionCurrencyList=" + transactionCurrencyList.toString() +
+                ", transactionTime=" + transactionTime +
+                ", description='" + description + '\'' +
+                '}';
     }
 
     @Override

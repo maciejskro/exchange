@@ -1,11 +1,9 @@
 package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
+import org.junit.runners.MethodSorters;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
@@ -14,8 +12,12 @@ import pl.kayzone.exchange.model.entity.CurrencyCourse;
 import pl.kayzone.exchange.model.entity.Customers;
 import pl.kayzone.exchange.model.entity.Transaction;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TransactionManagerIT {
     Datastore ds;
     Query<Transaction> query;
@@ -50,14 +52,36 @@ public class TransactionManagerIT {
         Transaction resultT = transactionManager.getDs().createQuery(Transaction.class).filter("_id",t.getId()).get();
 
         assertThat(resultT).isEqualToComparingOnlyGivenFields(t,
-                "customers","valueTransaction","transactionCurrencyList");
+                "customers","valueTransaction");
 
     }
 
     @Test(expected = NullPointerException.class)
     public void t02_testSaveWithNull() {
 
+        List<Transaction> listaTransBefore = transactionManager.getDs().createQuery(Transaction.class).asList();
         transactionManager.save(null);
+        List<Transaction> listaTransAfter = transactionManager.getDs().createQuery(Transaction.class).asList();
+
+        assertThat(listaTransAfter.size()).isEqualTo(listaTransBefore.size());
+    }
+
+    @Test
+    public void t03_testFindAllTransaction() {
+        List<Transaction> list = transactionManager.findAll();
+
+        assertThat(list).isNotNull();
+        assertThat(list.size()).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    public void t03_testFindTransBetweenDate() {
+        List<Transaction> lista = transactionManager.findPeriod(LocalDateTime.now().minusDays(5), LocalDateTime.now() );
+        assertThat(lista).isNotNull();
+        assertThat(lista.size()).isGreaterThanOrEqualTo(1);
+        assertThat(lista).hasAtLeastOneElementOfType(Transaction.class);
+        assertThat(lista.get(0)).isEqualToComparingOnlyGivenFields(tcc.getTransaction(),
+                "valueTransaction");
     }
 
 

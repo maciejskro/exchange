@@ -20,5 +20,4 @@
         <project.build.testSourceDirectory>src/test</project.build.testSourceDirectory>
     </properties>
 
-
 </project>

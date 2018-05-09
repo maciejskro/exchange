@@ -22,9 +22,9 @@ public class CurrenciesCourseManagerIT {
     MongoClient mongo;
     Morphia morphia;
     Datastore datastore;
-    CurrenciesCourseManager currenciesCourseManager;
+    CurrenciesCourseManagerImpl currenciesCourseManager;
     TestClassCreator tcc;
-    CurrenciesManager cm;
+    CurrenciesManagerImpl cm;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -33,9 +33,9 @@ public class CurrenciesCourseManagerIT {
     public void setUp() {
         mongo = new MongoClient();
         morphia = new Morphia();
-        currenciesCourseManager = new CurrenciesCourseManager(mongo, morphia);
+        currenciesCourseManager = new CurrenciesCourseManagerImpl(mongo);
         tcc = new TestClassCreator();
-        cm = new CurrenciesManager(mongo, morphia);
+        cm = new CurrenciesManagerImpl(mongo, morphia);
         datastore = cm.getDatastore("mongodb://127.0.0.1:27017/exchangeOffice");
         cm.save(tcc.getCurrency());
     }
@@ -113,7 +113,7 @@ public class CurrenciesCourseManagerIT {
 
     @AfterClass
     public static void cleanAllDatabasesCollections() {
-        CurrenciesCourseManager ccm = new CurrenciesCourseManager(new MongoClient(), new Morphia());
+        CurrenciesCourseManagerImpl ccm = new CurrenciesCourseManagerImpl(new MongoClient());
         ccm.getDatastore(null).delete(ccm.getDs().createQuery(CurrencyCourse.class));
     }
 }

@@ -19,14 +19,14 @@ public class CustomerManagerIT {
     MongoClient mongo;
     Morphia morphia;
     Datastore datastore;
-    CustomerManager customerManager;
+    CustomerManagerImpl customerManager;
     TestClassCreator tcc;
 
     @Before
     public void setUp() {
         this.mongo = new MongoClient();
         this.morphia = new Morphia();
-        customerManager = new CustomerManager(mongo, morphia);
+        customerManager = new CustomerManagerImpl(mongo, morphia);
         this.tcc = new TestClassCreator();
     }
 

@@ -25,7 +25,7 @@ public class CurrenciesManagerIT {
     MongoClient mongo;
     Morphia morphia;
     Datastore datastore;
-    CurrenciesManager currenciesManager;
+    CurrenciesManagerImpl currenciesManager;
     TestClassCreator tcc;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -34,7 +34,7 @@ public class CurrenciesManagerIT {
     @Before
     public void setUp() {
        // MockitoAnnotations.initMocks(this);
-        currenciesManager = new CurrenciesManager(new MongoClient(), new Morphia());
+        currenciesManager = new CurrenciesManagerImpl(new MongoClient(), new Morphia());
         this.tcc = new TestClassCreator();
     }
 
@@ -108,7 +108,7 @@ public class CurrenciesManagerIT {
 
     @AfterClass
     public static void cleanAllDatabasesCollections() {
-        CurrenciesManager cm = new CurrenciesManager(new MongoClient(),new Morphia());
+        CurrenciesManagerImpl cm = new CurrenciesManagerImpl(new MongoClient(),new Morphia());
         cm.getDs().delete(new TestClassCreator().getCurrency());
     }
 }

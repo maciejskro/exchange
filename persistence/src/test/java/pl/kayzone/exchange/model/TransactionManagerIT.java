@@ -24,7 +24,7 @@ public class TransactionManagerIT {
     Logger LOGG;
     MongoClient mongo;
     Morphia morphia;
-    TransactionManager transactionManager;
+    TransactionManagerImpl transactionManager;
     TestClassCreator tcc;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -33,7 +33,7 @@ public class TransactionManagerIT {
     public void setUp() {
         mongo = new MongoClient();
         morphia = new Morphia();
-        transactionManager = new TransactionManager(mongo,morphia);
+        transactionManager = new TransactionManagerImpl(mongo);
         tcc = new TestClassCreator();
         ds = transactionManager.getDs();
 
@@ -42,10 +42,10 @@ public class TransactionManagerIT {
     @Test
     public void t01_testSave() throws Exception {
         Transaction t = tcc.getTransaction();
-        (new CurrenciesManager(mongo,morphia)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse().getIdCode());
-        (new CurrenciesCourseManager(mongo,morphia)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());
-        (new CustomerManager(mongo,morphia)).getDs().save( t.getCustomers() );
-        (new CurrenciesCourseManager(mongo,morphia)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());
+        (new CurrenciesManagerImpl(mongo,morphia)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse().getIdCode());
+        (new CurrenciesCourseManagerImpl(mongo)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());
+        (new CustomerManagerImpl(mongo,morphia)).getDs().save( t.getCustomers() );
+        (new CurrenciesCourseManagerImpl(mongo)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());
         transactionManager.save(t);
 
 
@@ -101,11 +101,11 @@ public class TransactionManagerIT {
     public static void cleanAllDatabasesCollections() {
         Morphia mor = new Morphia();
         MongoClient monc = new MongoClient();
-        TransactionManager tm = new TransactionManager(monc, mor);
+        TransactionManagerImpl tm = new TransactionManagerImpl(monc);
         tm.getDs().delete(tm.getDs().createQuery(Transaction.class));
-        CurrenciesCourseManager ccm  = new CurrenciesCourseManager(monc, mor);
+        CurrenciesCourseManagerImpl ccm  = new CurrenciesCourseManagerImpl(monc);
         ccm.getDs().delete(ccm.getDs().createQuery(CurrencyCourse.class));
-        CustomerManager cm = new CustomerManager(monc, mor);
+        CustomerManagerImpl cm = new CustomerManagerImpl(monc, mor);
         cm.getDs().delete(cm.getDs().createQuery(Customers.class));
     }
 

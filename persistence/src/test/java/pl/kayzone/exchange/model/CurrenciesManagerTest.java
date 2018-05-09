@@ -34,13 +34,13 @@ public class CurrenciesManagerTest {
     @Mock Logger LOGG;
     @Mock MongoClient mongo;
     @Mock Morphia morphia;
-    CurrenciesManager currenciesManager;
+    CurrenciesManagerImpl currenciesManager;
     TestClassCreator tcc;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.currenciesManager = Mockito.mock(CurrenciesManager.class);
+        this.currenciesManager = Mockito.mock(CurrenciesManagerImpl.class);
         this.tcc = new TestClassCreator();
     }
 

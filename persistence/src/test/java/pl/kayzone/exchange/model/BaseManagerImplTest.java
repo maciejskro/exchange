@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 //@RunWith(MockitoJUnitRunner.class)
-public class BaseManagerTest {
+public class BaseManagerImplTest {
 
 
     private static final String EXCHANGEDBNAME = "exchangeOffice";
     private static final String CONNSTR = "mongodb://127.0.0.1:27017/" + EXCHANGEDBNAME;
-    private BaseManager baseManager;
+    private BaseManagerImpl baseManagerImpl;
     private Morphia morphia;
     private MongoClient mongoClient;
     private Datastore ds;
@@ -30,7 +30,7 @@ public class BaseManagerTest {
         //morphia.mapPackage("pl.kayzone.exchange.model.entity");
         mongoClient = new MongoClient();
         morphia = new Morphia();
-        baseManager = new BaseManager(mongoClient,morphia);
+        //baseManagerImpl = new BaseManagerImpl(mongoClient,morphia);
         ds = morphia.createDatastore(mongoClient,EXCHANGEDBNAME);
         this.tcc  = new TestClassCreator();
         this.currency = tcc.getCurrency();
@@ -42,9 +42,9 @@ public class BaseManagerTest {
 
         //ds.ensureIndexes();
 
-        Datastore ds2 = baseManager.getDatastore(conn);
+        Datastore ds2 = baseManagerImpl.getDatastore(conn);
 
-        assertThat(baseManager.getDatastore(conn) ).isInstanceOf(Datastore.class);
+        assertThat(baseManagerImpl.getDatastore(conn) ).isInstanceOf(Datastore.class);
         assertThat(ds2.getDB().getName()).isEqualTo(EXCHANGEDBNAME);
     }
 
@@ -52,16 +52,16 @@ public class BaseManagerTest {
     public void checkIfConnectionStringIsNullThenValidConnectionIsSet() {
         String conn = null;
 
-        baseManager.getDatastore(conn);
+        baseManagerImpl.getDatastore(conn);
 
-        assertThat(baseManager.getConnectionString()).isEqualTo(CONNSTR);
+        assertThat(baseManagerImpl.getConnectionString()).isEqualTo(CONNSTR);
     }
 
     @Test
     public void checkIfConnStringIsNullThenDefaultDBName() {
         String conn = null;
 
-        BaseManager bm = mock(BaseManager.class);
+        BaseManagerImpl bm = mock(BaseManagerImpl.class);
         bm.getDatastore(conn);
 
         verify(bm).getDatastore(nullable(String.class));
@@ -70,9 +70,9 @@ public class BaseManagerTest {
     @Test
     public void checkReturnMorphia() throws Exception {
 
-        baseManager.getDatastore(CONNSTR);
+        baseManagerImpl.getDatastore(CONNSTR);
 
-        assertThat(baseManager.getMorphia()).isInstanceOf(Morphia.class);
+        assertThat(baseManagerImpl.getMorphia()).isInstanceOf(Morphia.class);
     }
 
     @Test
@@ -80,19 +80,19 @@ public class BaseManagerTest {
         String conn = CONNSTR;
 
         Query<Currency> q =
-                baseManager.getDatastore(null).createQuery(Currency.class);
-        //baseManager.getDatastore(conn).save(tcc.getCurrency());
+                baseManagerImpl.getDatastore(null).createQuery(Currency.class);
+        //baseManagerImpl.getDatastore(conn).save(tcc.getCurrency());
         Currency curr = q.field("idCode").equal("USD").get();
         if (curr == null || currency == null || curr.getIdCode() != currency.getIdCode()) {
-            baseManager.getDatastore(conn).save(currency);
+            baseManagerImpl.getDatastore(conn).save(currency);
         }
-        assertThat(baseManager.getDatastore(conn).save(currency));
+        assertThat(baseManagerImpl.getDatastore(conn).save(currency));
     }
     @Test
     public void checkIfCanFindSavedObjectBefore()  {
         Query<Currency> q =
-                baseManager.getDatastore(null).createQuery(Currency.class);
-        baseManager.getDatastore(CONNSTR).save(tcc.getCurrency());
+                baseManagerImpl.getDatastore(null).createQuery(Currency.class);
+        baseManagerImpl.getDatastore(CONNSTR).save(tcc.getCurrency());
         Currency curr = q.field("idCode").equal("USD").get();
 
         assertThat(curr.getIdCode()).isEqualTo(currency.getIdCode());
@@ -101,7 +101,7 @@ public class BaseManagerTest {
     }
     @After
     public void cleanAllCollectionsAfterTest() {
-        baseManager.getDatastore(CONNSTR).delete(tcc.getCurrency());
+        baseManagerImpl.getDatastore(CONNSTR).delete(tcc.getCurrency());
     }
 
 }

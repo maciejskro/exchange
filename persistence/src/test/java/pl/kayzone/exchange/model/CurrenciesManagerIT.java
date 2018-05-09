@@ -34,7 +34,7 @@ public class CurrenciesManagerIT {
     @Before
     public void setUp() {
        // MockitoAnnotations.initMocks(this);
-        currenciesManager = new CurrenciesManagerImpl(new MongoClient(), new Morphia());
+        currenciesManager = new CurrenciesManagerImpl(new MongoClient() );
         this.tcc = new TestClassCreator();
     }
 
@@ -108,7 +108,7 @@ public class CurrenciesManagerIT {
 
     @AfterClass
     public static void cleanAllDatabasesCollections() {
-        CurrenciesManagerImpl cm = new CurrenciesManagerImpl(new MongoClient(),new Morphia());
+        CurrenciesManagerImpl cm = new CurrenciesManagerImpl(new MongoClient());
         cm.getDs().delete(new TestClassCreator().getCurrency());
     }
 }

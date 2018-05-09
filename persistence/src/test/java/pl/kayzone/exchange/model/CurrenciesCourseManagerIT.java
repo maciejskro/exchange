@@ -35,7 +35,7 @@ public class CurrenciesCourseManagerIT {
         morphia = new Morphia();
         currenciesCourseManager = new CurrenciesCourseManagerImpl(mongo);
         tcc = new TestClassCreator();
-        cm = new CurrenciesManagerImpl(mongo, morphia);
+        cm = new CurrenciesManagerImpl(mongo);
         datastore = cm.getDatastore("mongodb://127.0.0.1:27017/exchangeOffice");
         cm.save(tcc.getCurrency());
     }

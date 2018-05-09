@@ -2,7 +2,6 @@ package pl.kayzone.exchange.model;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
@@ -20,7 +19,7 @@ public class CurrenciesManagerImpl extends BaseManagerImpl<Currency> implements 
     private Query<Currency> query;
     private static final Logger LOGG = LoggerFactory.getLogger(CurrenciesManagerImpl.class);
 
-    CurrenciesManagerImpl(MongoClient mc, final Morphia m) {
+    CurrenciesManagerImpl(MongoClient mc) {
         super(mc);
         ds = super.getDatastore("exchangeOffice");
         query = super.getDatastore(getConnectionString()).createQuery(Currency.class);

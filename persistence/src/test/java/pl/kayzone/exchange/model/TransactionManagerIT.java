@@ -42,7 +42,7 @@ public class TransactionManagerIT {
     @Test
     public void t01_testSave() throws Exception {
         Transaction t = tcc.getTransaction();
-        (new CurrenciesManagerImpl(mongo,morphia)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse().getIdCode());
+        (new CurrenciesManagerImpl(mongo)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse().getIdCode());
         (new CurrenciesCourseManagerImpl(mongo)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());
         (new CustomerManagerImpl(mongo,morphia)).getDs().save( t.getCustomers() );
         (new CurrenciesCourseManagerImpl(mongo)).getDs().save(t.getTransactionCurrencyList().get(0).getCurrencyCourse());

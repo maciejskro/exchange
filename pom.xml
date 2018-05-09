@@ -89,6 +89,7 @@
     <modules>
         <module>domain</module>
         <module>persistence</module>
+        <module>services</module>
     </modules>
 
     <properties>

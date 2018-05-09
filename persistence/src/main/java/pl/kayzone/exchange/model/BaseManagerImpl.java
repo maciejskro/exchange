@@ -14,7 +14,7 @@ public abstract class BaseManagerImpl<T> implements BaseManager<T> {
     private MongoClient mongo;
     protected final Morphia morphia;
     protected Datastore datastore;
-    private Class<T> objcectClass;
+    private Class<T> objectClass;
     protected Query<T> query;
 
     BaseManagerImpl(final MongoClient mc ) {
@@ -22,7 +22,7 @@ public abstract class BaseManagerImpl<T> implements BaseManager<T> {
         this.morphia = getMorphia();
         //Type t =  getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) getClass().getGenericSuperclass();
-        this.objcectClass = (Class<T>) pt.getActualTypeArguments()[0];
+        this.objectClass = (Class<T>) pt.getActualTypeArguments()[0];
     }
 
     public Datastore getDatastore (String conn) {
@@ -58,12 +58,13 @@ public abstract class BaseManagerImpl<T> implements BaseManager<T> {
             throw  new NullPointerException("no object to save");
     }
     public List<T> findAll() {
-        query = this.datastore.createQuery(objcectClass);
+        query = this.datastore.createQuery(objectClass);
         return query.asList();
     }
 
     public T findById( ObjectId id) {
-       return (T) this.datastore.get(id);
+        T result = (T) this.datastore.get(id);
+       return result;
     }
 }
 

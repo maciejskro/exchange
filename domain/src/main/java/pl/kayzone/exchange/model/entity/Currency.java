@@ -101,6 +101,10 @@ public class Currency implements Serializable
         this.lastUpdate = lastUpdate;
     }
 
+    public String getRealNBP_url() {
+        return urlNbp.replace("{table}", tablesType).replace("{code}",idCode);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

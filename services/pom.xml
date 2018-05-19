@@ -22,8 +22,20 @@
             <groupId>pl.kayzone.exchange</groupId>
             <artifactId>domain</artifactId>
             <version>0.1</version>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>pl.kayzone.exchange</groupId>
+            <artifactId>persistence</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.kayzone.exchange</groupId>
+            <artifactId>domain</artifactId>
+            <version>0.1</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 

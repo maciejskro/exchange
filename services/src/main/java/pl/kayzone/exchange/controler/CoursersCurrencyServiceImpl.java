@@ -10,7 +10,6 @@ import java.util.List;
 public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
     @Override
     public void addNewCurrentCourses(String code, LocalDateTime validFrom, LocalDateTime validTo, BigDecimal sell, BigDecimal buy) {
-
     }
 
     @Override

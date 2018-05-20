@@ -1,5 +1,10 @@
 package pl.kayzone.exchange.controler;
 
+import com.mongodb.MongoClient;
+import pl.kayzone.exchange.model.CurrenciesCourseManager;
+import pl.kayzone.exchange.model.CurrenciesCourseManagerImpl;
+import pl.kayzone.exchange.model.CurrenciesManager;
+import pl.kayzone.exchange.model.CurrenciesManagerImpl;
 import pl.kayzone.exchange.model.entity.Currency;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
@@ -8,6 +13,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
+
+    private CurrenciesManager cm ;
+    private CurrenciesCourseManager ccm;
+
+    public CoursersCurrencyServiceImpl() {
+        this.cm = new CurrenciesManagerImpl( new MongoClient());
+        this.ccm = new CurrenciesCourseManagerImpl(new MongoClient());
+    }
+
     @Override
     public void addNewCurrentCourses(String code, LocalDateTime validFrom, LocalDateTime validTo, BigDecimal sell, BigDecimal buy) {
     }
@@ -19,7 +33,8 @@ public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
 
     @Override
     public CurrencyCourse getActiveCourseForCode(String code) {
-        return null;
+        CurrencyCourse cc = ccm.findActualCourse( code);
+        return cc;
     }
 
     @Override

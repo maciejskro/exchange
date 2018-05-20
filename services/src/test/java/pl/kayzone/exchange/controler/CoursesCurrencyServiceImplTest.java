@@ -1,11 +1,9 @@
 package pl.kayzone.exchange.controler;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
@@ -14,13 +12,15 @@ import pl.kayzone.exchange.model.CurrenciesManager;
 import pl.kayzone.exchange.model.TestClassCreator;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
+import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoursesCurrencyServiceImplTest {
 
     @Mock
     CurrenciesCourseManager currenciesCourseManager;
-
     @Mock
     CurrenciesManager currenciesManager;
 
@@ -29,21 +29,22 @@ public class CoursesCurrencyServiceImplTest {
     @Mock
     Query query;
     private TestClassCreator tcc;
-
+    private CoursesCurrencyServices ccs;
 
     @Before
     public void setUp() {
         this.tcc = new TestClassCreator();
+        this.ccs  = new CoursersCurrencyServiceImpl();
     }
 
     @Test
     public  void getCurrentCurrenciesCode(){
-        Mockito.when(currenciesCourseManager.findActualCourse("USD")).thenReturn(tcc.getCurrencyCourse());
+        when( currenciesCourseManager.findActualCourse("USD") ).thenReturn( tcc.getCurrencyCourse() );
 
-        CurrencyCourse cc  = currenciesCourseManager.findActualCourse("USD");
+        CurrencyCourse cc  = ccs.getActiveCourseForCode( "USD" );
 
-        Assertions.assertThat(cc).isInstanceOf(CurrencyCourse.class);
-        Assertions.assertThat(cc).
-                isEqualToComparingOnlyGivenFields(tcc.getCurrencyCourse(),"active", "ask", "bid","idCode");
+        assertThat(cc).isInstanceOf( CurrencyCourse.class );
+        assertThat(cc).
+                isEqualToComparingOnlyGivenFields( tcc.getCurrencyCourse(),"active", "ask", "bid");
     }
 }

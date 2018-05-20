@@ -19,7 +19,7 @@ public class CurrenciesManagerImpl extends BaseManagerImpl<Currency> implements 
     private Query<Currency> query;
     private static final Logger LOGG = LoggerFactory.getLogger(CurrenciesManagerImpl.class);
 
-    CurrenciesManagerImpl(MongoClient mc) {
+    public CurrenciesManagerImpl(MongoClient mc) {
         super(mc);
         ds = super.getDatastore("exchangeOffice");
         query = super.getDatastore(getConnectionString()).createQuery(Currency.class);

@@ -11,7 +11,9 @@
     <groupId>pl.kayzone.exchange</groupId>
     <artifactId>services</artifactId>
     <packaging>jar</packaging>
-
+    <properties>
+        <powermock.version>1.7.4</powermock.version>
+    </properties>
     <dependencies>
 
         <dependency>
@@ -48,14 +50,14 @@
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
-            <version>1.7.4</version>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
         <dependency>
             <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>1.7.4</version>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
 

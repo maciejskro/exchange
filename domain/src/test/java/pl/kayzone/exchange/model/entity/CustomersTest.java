@@ -36,6 +36,6 @@ public class CustomersTest {
         Customers cust = testClassCreator.getCustomers();
 
         assertThat(cust.getVersion()).isNotNull();
-        assertThat(cust.getVersion()).isGreaterThan(0);
+        assertThat(cust.getVersion()).isGreaterThan(0l);
     }
 }

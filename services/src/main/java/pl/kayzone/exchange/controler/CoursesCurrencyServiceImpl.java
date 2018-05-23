@@ -12,14 +12,22 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
+public class CoursesCurrencyServiceImpl implements CoursesCurrencyServices {
 
-    private CurrenciesManager cm ;
+    private CurrenciesManager cm;
     private CurrenciesCourseManager ccm;
 
-    public CoursersCurrencyServiceImpl(MongoClient mongoClient) {
-        this.cm = new CurrenciesManagerImpl(mongoClient);
-        this.ccm = new CurrenciesCourseManagerImpl(mongoClient);
+    public CoursesCurrencyServiceImpl(MongoClient mongoClient) {
+        if (mongoClient != null) {
+            this.cm = new CurrenciesManagerImpl(mongoClient);
+            this.ccm = new CurrenciesCourseManagerImpl(mongoClient);
+        } else {
+            this.cm = new CurrenciesManagerImpl(new MongoClient());
+            this.ccm = new CurrenciesCourseManagerImpl(new MongoClient());
+        }
+    }
+
+    public CoursesCurrencyServiceImpl() {
     }
 
     @Override
@@ -33,7 +41,7 @@ public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
 
     @Override
     public CurrencyCourse getActiveCourseForCode(String code) {
-        return ccm.findActualCourse( code);
+        return ccm.findActualCourse(code);
     }
 
     @Override

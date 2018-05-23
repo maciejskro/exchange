@@ -1,7 +1,6 @@
 package pl.kayzone.exchange.model;
 
 import org.bson.types.ObjectId;
-import org.junit.Ignore;
 import pl.kayzone.exchange.model.entity.*;
 
 import java.math.BigDecimal;
@@ -9,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
 public class TestClassCreator {
 
     Currency currency;
@@ -59,6 +57,7 @@ public class TestClassCreator {
              customers.setZip("43-334");
              customers.setCountry("Poland");
              customers.setNip("883-220-90-33");
+             customers.setVersion(1l);
         return customers;
     }
 

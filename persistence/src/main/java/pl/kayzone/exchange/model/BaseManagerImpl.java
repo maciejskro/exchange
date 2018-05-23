@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class BaseManagerImpl<T> implements BaseManager<T> {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
     private  MongoClient mongo;
-    protected final Morphia morphia;
+    protected Morphia morphia;
     protected Datastore datastore;
     private Class<T> objectClass;
     protected Query<T> query;
@@ -33,6 +33,9 @@ public abstract class BaseManagerImpl<T> implements BaseManager<T> {
                 dbname = connectionString.substring(connectionString.lastIndexOf("/") + 1, connectionString.length());
             } else {
                 dbname = "exchangeOffice";
+            }
+            if (this.morphia == null) {
+                morphia = getMorphia();
             }
             datastore = morphia.createDatastore(mongo, dbname);
             datastore.ensureIndexes();

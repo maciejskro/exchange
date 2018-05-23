@@ -4,53 +4,64 @@ import com.mongodb.MongoClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import pl.kayzone.exchange.model.*;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.reflect.Whitebox;
+import pl.kayzone.exchange.model.CurrenciesCourseManagerImpl;
+import pl.kayzone.exchange.model.CurrenciesManagerImpl;
+import pl.kayzone.exchange.model.TestClassCreator;
 import pl.kayzone.exchange.model.entity.CurrencyCourse;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.mockito.Mockito.verify;
 
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({CurrenciesCourseManager.class, CurrenciesManager.class})
+
+@RunWith(MockitoJUnitRunner.class)
+//@PrepareForTest({CoursesCurrencyServiceImpl.class})
 public class CoursesCurrencyServiceImplTest {
 
+    @Mock
     private MongoClient mockClient;
-    private CurrenciesManager mockcm ;
-    private CurrenciesCourseManager mockccm;
+    @Mock
+    private CurrenciesManagerImpl cm ;
+    @Mock
+    private CurrenciesCourseManagerImpl ccm;
 
-    private CoursesCurrencyServices ccs;
+    private CoursesCurrencyServiceImpl ccs;
+
     private TestClassCreator tcc;
 
     @Before
     public void setUp() throws  Exception {
         this.tcc = new TestClassCreator();
-        mockClient = mock(MongoClient.class);
-        mockcm = mock(CurrenciesManagerImpl.class);
-        mockccm = mock(CurrenciesCourseManagerImpl.class);
-        whenNew(CurrenciesCourseManager.class).withNoArguments().thenReturn(mockccm);
-        whenNew(CurrenciesManager.class).withNoArguments().thenReturn(mockcm);
-        this.ccs = new CoursersCurrencyServiceImpl(mockClient);
-        this.ccs = spy(ccs);
+
+        MockitoAnnotations.initMocks(this);
+
+        //whenNew(CurrenciesCourseManager.class).withNoArguments();
+        //whenNew(CurrenciesManager.class).withNoArguments();
+        this.ccs = new CoursesCurrencyServiceImpl(mockClient);
+        Whitebox.setInternalState(ccs,"ccm" ,ccm);
+        Whitebox.setInternalState(ccs , "cm",cm);
     }
 
     @Test
-    public  void shouldGetCurrentCurrenciesForCode(){
-        when( mockccm.findActualCourse("USD") ).thenReturn( tcc.getCurrencyCourse() );
-
+    public  void shouldGetCurrentCurrenciesForCode() throws  Exception{
+        Mockito.when( ccm.findActualCourse("USD") )
+               .thenReturn( tcc.getCurrencyCourse() );
+        //PowerMockito.doReturn(tcc.getCurrencyCourse())
+         //           .when(ccs, "getActiveCourseForCode" , "USD");
 
         CurrencyCourse cc  = ccs.getActiveCourseForCode( "USD" );
 
         assertThat(cc).isInstanceOf( CurrencyCourse.class );
         assertThat(cc).
                isEqualToComparingOnlyGivenFields( tcc.getCurrencyCourse(),"active", "ask", "bid" );
-        Mockito.verify(mockccm).findActualCourse("USD");
+        verify(ccm).findActualCourse("USD");
     }
 
     @Test
@@ -62,12 +73,12 @@ public class CoursesCurrencyServiceImplTest {
     }
     @Test
     public void souldGetListOfActiveCurrenciesCourse() {
-        when(mockccm.findAllActive()).thenReturn(Arrays.asList(tcc.getCurrencyCourse(), tcc.getCurrencyCourse()));
+     //   when(mockccm.findAllActive()).thenReturn(Arrays.asList(tcc.getCurrencyCourse(), tcc.getCurrencyCourse()));
 
         List<CurrencyCourse> lcc = ccs.getActiveCourses();
 
         assertThat(lcc).hasOnlyElementsOfTypes(CurrencyCourse.class);
         assertThat(lcc.size()).isEqualTo(2);
-        Mockito.verify(mockccm).findAllActive();
+        verify(ccm).findAllActive();
     }
 }

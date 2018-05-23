@@ -8,8 +8,9 @@
         <version>0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>pl.kayzone.exchange</groupId>
     <artifactId>services</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
 
@@ -25,16 +26,39 @@
         </dependency>
         <dependency>
             <groupId>pl.kayzone.exchange</groupId>
-            <artifactId>persistence</artifactId>
-            <version>0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>pl.kayzone.exchange</groupId>
             <artifactId>domain</artifactId>
             <version>0.1</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>pl.kayzone.exchange</groupId>
+            <artifactId>persistence</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.kayzone.exchange</groupId>
+            <artifactId>persistence</artifactId>
+            <version>0.1</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.7.4</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.7.4</version>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
 

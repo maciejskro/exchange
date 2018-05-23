@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class BaseManagerImpl<T> implements BaseManager<T> {
     private String connectionString = "mongodb://127.0.0.1:27017/exchangeOffice";
-    private MongoClient mongo;
+    private  MongoClient mongo;
     protected final Morphia morphia;
     protected Datastore datastore;
     private Class<T> objectClass;
@@ -19,7 +19,7 @@ public abstract class BaseManagerImpl<T> implements BaseManager<T> {
 
     BaseManagerImpl(final MongoClient mc ) {
         this.mongo = mc;
-        this.morphia = getMorphia();
+        this.morphia = this.getMorphia();
         //Type t =  getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) getClass().getGenericSuperclass();
         this.objectClass = (Class<T>) pt.getActualTypeArguments()[0];

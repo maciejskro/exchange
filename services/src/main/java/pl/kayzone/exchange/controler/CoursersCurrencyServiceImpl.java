@@ -17,9 +17,9 @@ public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
     private CurrenciesManager cm ;
     private CurrenciesCourseManager ccm;
 
-    public CoursersCurrencyServiceImpl() {
-        this.cm = new CurrenciesManagerImpl( new MongoClient());
-        this.ccm = new CurrenciesCourseManagerImpl(new MongoClient());
+    public CoursersCurrencyServiceImpl(MongoClient mongoClient) {
+        this.cm = new CurrenciesManagerImpl(mongoClient);
+        this.ccm = new CurrenciesCourseManagerImpl(mongoClient);
     }
 
     @Override
@@ -28,18 +28,17 @@ public class CoursersCurrencyServiceImpl implements CoursesCurrencyServices {
 
     @Override
     public List<CurrencyCourse> getActiveCourses() {
-        return null;
+        return ccm.findAllActive();
     }
 
     @Override
     public CurrencyCourse getActiveCourseForCode(String code) {
-        CurrencyCourse cc = ccm.findActualCourse( code);
-        return cc;
+        return ccm.findActualCourse( code);
     }
 
     @Override
     public List<Currency> getActiveCurrencies() {
-        return null;
+        return cm.findAll();
     }
 
     @Override

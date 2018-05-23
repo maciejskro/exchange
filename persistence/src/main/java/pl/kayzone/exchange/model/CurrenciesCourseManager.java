@@ -11,6 +11,7 @@ public interface CurrenciesCourseManager extends BaseManager<CurrencyCourse>   {
 
     void save(CurrencyCourse cc);
     List<CurrencyCourse> findAll();
+    List<CurrencyCourse> findAllActive();
     CurrencyCourse findById (String id);
     CurrencyCourse findActualCourse(String code);
     UpdateOperations<CurrencyCourse> createOperations();

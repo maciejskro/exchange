@@ -11,13 +11,17 @@
     <groupId>pl.kayzone.exchange</groupId>
     <artifactId>domain</artifactId>
     <version>0.1</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <project.build.sourceDirectory>src/main</project.build.sourceDirectory>
         <project.build.testSourceDirectory>src/test</project.build.testSourceDirectory>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+
     </properties>
 
 </project>

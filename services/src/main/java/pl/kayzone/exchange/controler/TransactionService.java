@@ -7,7 +7,7 @@ import pl.kayzone.exchange.model.entity.CurrencyCourse;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public interface TransactionService {
+public interface TransactionService  {
 
     ObjectId createNewTransaction(Currency who);
     boolean createSell(CurrencyCourse cc, BigDecimal quantity);

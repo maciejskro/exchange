@@ -30,10 +30,21 @@ public class CurrenciesCourseManagerImpl extends BaseManagerImpl<CurrencyCourse>
     }
 
     public void save(CurrencyCourse cc) throws MongoException {
+        query = getDs().createQuery(CurrencyCourse.class)
+                .field("active").equal(true)
+                .field("idCode").equal(cc.getIdCode());
+        update(query, createOperations().set("active",false));
        super.save(cc);
     }
 
-     public List<CurrencyCourse> findAll() {
+    public List<CurrencyCourse> findAll() {
+        return query.asList();
+    }
+
+    @Override
+    public List<CurrencyCourse> findAllActive() {
+        ds.find(CurrencyCourse.class);
+        query.field("active").equal(true);
         return query.asList();
     }
 
